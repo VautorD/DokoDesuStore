@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique index{% endblock %}
+
+{% block body %}
+    <h1>Boutique index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Num_siret</th>
+                <th>Adresse</th>
+                <th>Cp</th>
+                <th>Ville</th>
+                <th>Img</th>
+                <th>Tel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for boutique in boutiques %}
+            <tr>
+                <td>{{ boutique.id }}</td>
+                <td>{{ boutique.nom }}</td>
+                <td>{{ boutique.numSiret }}</td>
+                <td>{{ boutique.adresse }}</td>
+                <td>{{ boutique.cp }}</td>
+                <td>{{ boutique.ville }}</td>
+                <td>{{ boutique.img }}</td>
+                <td>{{ boutique.tel }}</td>
+                <td>
+                    <a href="{{ path('app_boutique_show', {'id': boutique.id}) }}">show</a>
+                    <a href="{{ path('app_boutique_edit', {'id': boutique.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_boutique_new') }}">Create new</a>
+{% endblock %}

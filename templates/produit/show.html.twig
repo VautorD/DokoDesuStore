@@ -4,35 +4,50 @@
 
 {% block body %}
     <h1>Produit</h1>
+    <img class="w-full h-[400px]" src="{{ asset('build/img/banniere_produit.png') }}" alt="bannière page tout les produits">
+    <div class="grid grid-cols-2 gap-4">
+        <div class="">
+            <div>
+                <img class="" src="{{ produit.img }}" alt="{{ produit.nom}}">
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-lg">
+                <p>{{ produit.description }}</p>
+            </div>
+            
+        </div>
+        <div class="">
+            <div class="bg-white p-4 rounded-lg shadow-lg mb-4">
+                <h1 class="text-2xl font-bold">{{ produit.nom }} - {{ produit.marque }}</h1>
+                <p class="text-xl font-bold">{{ produit.prix }} €</p>
+                <div class="flex items-center mt-4">
+                    <label for="quantity" class="mr-2">Quantité</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" class="w-16 p-2 border rounded">
+                </div>
+                <div class="mt-4">
+                    <button class="bg-secondary text-white px-4 py-2 rounded-lg mr-2">Réserver maintenant</button>
+                    <button class="bg-pink-200 text-pink-700 px-4 py-2 rounded-lg">Ajouter au panier</button>
+                </div>
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ produit.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ produit.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ produit.prix }}</td>
-            </tr>
-            <tr>
-                <th>Marque</th>
-                <td>{{ produit.marque }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ produit.description }}</td>
-            </tr>
-            <tr>
-                <th>Img</th>
-                <td>{{ produit.img }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="bg-white p-4 rounded-lg shadow-lg mb-4">
+                <p>Une fois payé votre produit est réservé en boutique : n'attendez pas pour le récupérer !</p>
+                <p class="mt-2">Retrait gratuit en magasin</p>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold">Découvrir la boutique</h2>
+                <div class="flex mt-4">
+                    <img class="w-32 h-32 object-cover rounded-lg mr-4" src="{{ asset('build/img/boutique.jpg') }}" alt="Image de la boutique">
+                    <div>
+                        <h3 class="text-lg font-semibold">Cool Japan</h3>
+                        <p>45 Rue Sainte-Anne, 75001 Paris</p>
+                        <p class="mt-2">Vente de vêtements traditionnels, de mobilier et d'articles de décoration japonais dans un cadre élégant.</p>
+                        <button class="bg-secondary text-white px-4 py-2 rounded-lg mt-4">Je découvre</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <a href="{{ path('app_produit_index') }}">back to list</a>
 

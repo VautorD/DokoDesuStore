@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <aside class="col-3 border-light bg-white p-2">
+                <article class="card mb-3">
+                    <div class="card-header">
+                        Catégories
+                    </div>
+                    <div class="card-body">
+                        <p><a href="{{ path('app_categorie_index')}}">Liste des Catégories </a></p>
+                        <p><a href="">Gestion des Catégories </a></p>
+                    </div>
+                </article>
+                <article class="card mb-3">
+                    <div class="card-header">
+                        Produits
+                    </div>
+                    <div class="card-body">
+                        <p><a href="{{ path('app_categorie_index')}}">Liste des Produits </a></p>
+                        <p><a href="">Gestion des produits </a></p>
+                    </div>
+                </article>
+                <article class="card mb-3">
+                    <div class="card-header">
+                        utilisateurs
+                    </div>
+                    <div class="card-body">
+                        <p><a href="{{ path('app_admin_users')}}">Liste des Utilisateurs </a></p>
+                    </div>
+                </article>
+            </aside>
+            <main class="col-9 border-light bg-light p-2">
+                <h1> Administration <h1>
+            </main>
+        </div>
+    </div>
+{% endblock %}

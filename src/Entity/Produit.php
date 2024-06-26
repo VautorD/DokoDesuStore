@@ -2,12 +2,17 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\DescriptionTrait;
+use App\Entity\Trait\SlugTrait;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
+    use DescriptionTrait;
+    use SlugTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,9 +26,6 @@ class Produit
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $marque = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $img = null;
@@ -73,18 +75,6 @@ class Produit
     public function setMarque(?string $marque): static
     {
         $this->marque = $marque;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
 
         return $this;
     }

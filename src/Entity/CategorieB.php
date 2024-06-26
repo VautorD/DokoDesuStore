@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\DescriptionTrait;
+use App\Entity\Trait\SlugTrait;
 use App\Repository\CategorieBRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CategorieBRepository::class)]
 class CategorieB
 {
+    use DescriptionTrait;
+    use SlugTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -17,12 +22,6 @@ class CategorieB
 
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img = null;
@@ -51,30 +50,6 @@ class CategorieB
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
 
         return $this;
     }

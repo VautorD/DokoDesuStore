@@ -10,24 +10,21 @@ class AbonnementFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $abonnement = new Abonnement();
-        $abonnement->setNom('Abonnement découverte');
-        $abonnement->setPrix('19,99');
-        $abonnement->setDescription('Abonnement pour découvrir nos service');
-        $manager->persist($abonnement);
-
-        $abonnement = new Abonnement();
-        $abonnement->setNom('Abonnement habitué');
-        $abonnement->setPrix('50');
-        $abonnement->setDescription('Abonnement pour nos habitués qui souhaite payer au mois');
-        $manager->persist($abonnement);
-
-        $abonnement = new Abonnement();
-        $abonnement->setNom('Abonnement professionnel');
-        $abonnement->setPrix('850,85');
-        $abonnement->setDescription('Abonnement pour nos professionnel à l année');
-        $manager->persist($abonnement);
+        $this->createAbonnement('Abonnement découverte',19.99,'Abonnement pour découvrir nos service', $manager);
+        $this->createAbonnement('Abonnement habitué',50,'Abonnement pour nos habitués qui souhaite payer au mois', $manager);
+        $this->createAbonnement('Abonnement professionnel',850.85,'Abonnement pour nos professionnel à l année', $manager);
 
         $manager->flush();
+    }
+
+    public function createAbonnement(string $nom, float $prix, string $description, ObjectManager $manager){
+        
+        $abonnement = new Abonnement();
+        $abonnement->setNom($nom);
+        $abonnement->setPrix($prix);
+        $abonnement->setDescription($description);
+        $manager->persist($abonnement);
+
+        return $abonnement;
     }
 }

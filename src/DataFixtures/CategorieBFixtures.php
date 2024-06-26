@@ -5,46 +5,38 @@ namespace App\DataFixtures;
 use App\Entity\CategorieB;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategorieBFixtures extends Fixture
 {
+    //SluggerInterface qui provient du composant "String" et nous permet de faire les slug automatiquement
+    public function __construct(private SluggerInterface $slugger) {}
+    
     public function load(ObjectManager $manager): void
     {
-        $categoryB = new CategorieB();
-        $categoryB->setNom('Vetements');
-        $categoryB->setDescription('Tous les vetements');
-        $categoryB->setSlug('vetements');
-        $categoryB->setImg('Vetements');
-        $manager->persist($categoryB);
+        //Les boutique de vetements
+        $this->createCategorieB('Vetements','Tous les vetements','Vetements', $manager);
 
-        $categoryB = new CategorieB();
-        $categoryB->setNom('Cosplay');
-        $categoryB->setDescription('Tous les cosplay');
-        $categoryB->setSlug('cosplay');
-        $categoryB->setImg('cosplay');
-        $manager->persist($categoryB);
+        //Les boutiques de cosplay
+        $this->createCategorieB('Cosplay','Tous les cosplay','cosplay', $manager);
 
-        $categoryB = new CategorieB();
-        $categoryB->setNom('Librairie');
-        $categoryB->setDescription('Tous nos livres');
-        $categoryB->setSlug('librairie');
-        $categoryB->setImg('librairie');
-        $manager->persist($categoryB);
+        //Les boutiques qui sont des librairie
+        $this->createCategorieB('Librairie','Tous nos livres','librairie', $manager);
 
-        $categoryB = new CategorieB();
-        $categoryB->setNom('Produits dérivés');
-        $categoryB->setDescription('Tous les produits dérivés');
-        $categoryB->setSlug('produits-derives');
-        $categoryB->setImg('produitD');
-        $manager->persist($categoryB);
-
-        $categoryB = new CategorieB();
-        $categoryB->setNom('Alimentaire');
-        $categoryB->setDescription('Tous les produits alimentaire');
-        $categoryB->setSlug('alimentaire');
-        $categoryB->setImg('alimentaire');
-        $manager->persist($categoryB);
+        //Les boutiques qui proposent des produits dérivés
+        $this->createCategorieB('Produits dérivés','Tous les produits dérivés','produitD', $manager);
+        $this->createCategorieB('Alimentaire','Tous les produits alimentaire','alimentaire', $manager);
 
         $manager->flush();
+    }
+
+    public function createCategorieB(string $nom, string $description, string $img, ObjectManager $manager){
+        
+        $categoryB = new CategorieB();
+        $categoryB->setNom($nom);
+        $categoryB->setDescription($description);
+        $categoryB->setSlug($this->slugger->slug($categoryB->getNom())->lower());
+        $categoryB->setImg($img);
+        $manager->persist($categoryB);
     }
 }

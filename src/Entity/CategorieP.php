@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\DescriptionTrait;
+use App\Entity\Trait\SlugTrait;
 use App\Repository\CategoriePRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CategoriePRepository::class)]
 class CategorieP
 {
+    use DescriptionTrait;
+    use SlugTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,12 +31,6 @@ class CategorieP
      */
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
     private Collection $categoriePs;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img = null;
@@ -103,30 +102,6 @@ class CategorieP
                 $categorieP->setParent(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
 
         return $this;
     }

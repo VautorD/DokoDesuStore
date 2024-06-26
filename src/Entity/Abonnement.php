@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\DescriptionTrait;
 use App\Repository\AbonnementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AbonnementRepository::class)]
 class Abonnement
 {
+    use DescriptionTrait;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,9 +23,6 @@ class Abonnement
 
     #[ORM\Column]
     private ?float $prix = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
 
     /**
      * @var Collection<int, User>
@@ -60,18 +60,6 @@ class Abonnement
     public function setPrix(float $prix): static
     {
         $this->prix = $prix;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
 
         return $this;
     }

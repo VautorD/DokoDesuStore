@@ -21,6 +21,11 @@ Encore
         to: 'img/[path][name].[hash:8].[ext]',
         pattern: /\.(png|jpg|jpeg|svg)$/
     })
+    .copyFiles({
+        from: './assets/icons',
+        to: 'icons/[path][name].[hash:8].[ext]',
+        pattern: /\.(png|jpg|jpeg|svg)$/
+    })
     .addLoader({
         test: /\.(png|jpg|jpeg|gif|svg|eot|ttf|woff|woff2)$/i,
         loader: 'file-loader',

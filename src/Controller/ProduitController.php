@@ -22,6 +22,22 @@ class ProduitController extends AbstractController
         ]);
     }
 
+    #[Route('/all', name: 'app_produit_all', methods: ['GET'])]
+    public function all(ProduitRepository $produitRepository): Response
+    {
+        return $this->render('produit/all.html.twig', [
+            'produits' => $produitRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_produit_detail', methods: ['GET'])]
+    public function detail(Produit $produit): Response
+    {
+        return $this->render('produit/detail.html.twig', [
+            'produit' => $produit,
+        ]);
+    }
+
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -78,4 +94,5 @@ class ProduitController extends AbstractController
 
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

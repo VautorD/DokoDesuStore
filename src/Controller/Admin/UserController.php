@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 
 #[Route('/admin/utilisateurs')]
-class UsersController extends AbstractController
+class UserController extends AbstractController
 {
     #[Route('/list_user', name: 'app_admin_users')]
     public function listUsers(UserRepository $userRepository): Response

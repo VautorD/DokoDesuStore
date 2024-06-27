@@ -1,23 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+{% block title %}{{ produit.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Produit</h1>
     <img class="w-full h-[400px]" src="{{ asset('build/img/banniere_produit.png') }}" alt="bannière page tout les produits">
     <div class="grid grid-cols-2 p-15 gap-32">
         <div class="flex flex-col gap-4">
             <div class="grid grid-cols-3 gap-4 p-4">
                 <div class="flex flex-col justify-between col-span-1">
                     <div class="bg-white p-4 rounded-lg shadow-custom h-36">
-                        <img class="w-full h-full object-contain" src="{{ produit.img }}" alt="{{ produit.nom }}">
+                        <img class="w-full h-full object-contain" src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}">
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow-custom h-36">
-                        <img class="w-full h-full object-contain" src="{{ produit.img }}" alt="{{ produit.nom }}">
+                        <img class="w-full h-full object-contain" src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}">
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-custom col-span-2 h-80">
-                    <img class="w-full h-full object-contain" src="{{ produit.img }}" alt="{{ produit.nom }}">
+                    <img class="w-full h-full object-contain" src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}">
                 </div>
             </div>
             <div class="bg-white p-4 ">
@@ -51,15 +50,20 @@
 
             <div class="bg-white p-4 rounded-lg shadow-custom">
                 <h2 class="text-xl font-bold">Découvrir la boutique</h2>
-                <div class="flex mt-4">
-                    <img class="w-32 h-32 object-cover rounded-lg mr-4" src="{{ asset('build/img/boutique.jpg') }}" alt="Image de la boutique">
-                    <div>
-                        <h3 class="text-lg font-semibold">Cool Japan</h3>
-                        <p>45 Rue Sainte-Anne, 75001 Paris</p>
-                        <p class="mt-2">Vente de vêtements traditionnels, de mobilier et d'articles de décoration japonais dans un cadre élégant.</p>
-                        <button class="bg-secondary text-white px-4 py-2 rounded-lg mt-4">Je découvre</button>
+                {% if boutique %}
+                    <div class="flex mt-4">
+                        <img class="w-32 h-32 object-cover rounded-lg mr-4" src="{{ asset('build/img/' ~ boutique.getImg()) }}" alt="Logo de {{ boutique.getNom() }}">
+                        <div>
+                            <h3 class="text-lg font-semibold">{{ boutique.getNom() }}</h3>
+                            <p class="text-body-large font-regular">{{ boutique.getAdresse() }}<br>
+                                {{ boutique.getCp() }} {{ boutique.getVille() }}</p>
+                            <p class="mt-2">{{ boutique.getDescription() }}</p>
+                            <button class="bg-secondary text-white px-4 py-2 rounded-lg mt-4">
+                        <a href="{{ path('app_boutique_template', {'id': boutique.id}) }}">Je découvre</a>
+                    </button>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>

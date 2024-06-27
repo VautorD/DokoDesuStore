@@ -30,11 +30,17 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_produit_detail', methods: ['GET'])]
-    public function detail(Produit $produit): Response
+    #[Route('/{slug}', name: 'app_produit_details', methods: ['GET'])]
+    public function details(Request $request, ProduitRepository $produitRepository): Response
     {
+        
+        $slug = $request->attributes->get('slug');
+        $produit = $produitRepository->findOneBy(['slug' => $slug]);
+        $boutique = $produit->getBoutique();
+
         return $this->render('produit/detail.html.twig', [
             'produit' => $produit,
+            'boutique' => $boutique,
         ]);
     }
 

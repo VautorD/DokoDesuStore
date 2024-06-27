@@ -32,15 +32,6 @@ class BoutiqueController extends AbstractController
             'boutique' => $boutique,
         ]);
     }
-
-    // #[Route('/all', name: 'app_boutique_all', methods: ['GET', 'POST'])]
-    // public function allBoutique(BoutiqueRepository $boutiqueRepository,CategorieBRepository $categorieBRepository): Response
-    // {
-    //     return $this->render('boutique/allBoutique.html.twig', [
-    //         'boutiques' => $boutiqueRepository->findAll(),
-    //         'categorie_bs' => $categorieBRepository->findAll()
-    //     ]);
-    // }
     
     #[Route('/all', name: 'app_boutique_all', methods: ['GET', 'POST'])]
     public function allBoutique(BoutiqueRepository $boutiqueRepository, CategorieBRepository $categorieBRepository, Request $request): Response

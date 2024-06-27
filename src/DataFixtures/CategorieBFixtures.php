@@ -25,7 +25,12 @@ class CategorieBFixtures extends Fixture
 
         //Les boutiques qui proposent des produits dérivés
         $this->createCategorieB('Produits dérivés','Tous les produits dérivés','produitD', $manager);
+
+        //Les boutiques alimentaire
         $this->createCategorieB('Alimentaire','Tous les produits alimentaire','alimentaire', $manager);
+
+        //Les boutiques restaurants
+        $this->createCategorieB('Restaurant','Tous les restaurants','restaurant', $manager);
 
         $manager->flush();
     }

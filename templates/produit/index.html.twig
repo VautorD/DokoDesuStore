@@ -25,7 +25,7 @@
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.marque }}</td>
                 <td>{{ produit.description }}</td>
-                <td>{{ produit.img }}</td>
+                <td><img class="size-40" src="{{ produit.img }}" alt="{{ produit.nom }}"/></td>
                 <td>
                     <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
                     <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>

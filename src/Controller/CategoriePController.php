@@ -25,6 +25,7 @@ class CategoriePController extends AbstractController
     #[Route('/new', name: 'app_categorie_p_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         $categorieP = new CategorieP();
         $form = $this->createForm(CategoriePType::class, $categorieP);
         $form->handleRequest($request);
@@ -45,6 +46,7 @@ class CategoriePController extends AbstractController
     #[Route('/{id}', name: 'app_categorie_p_show', methods: ['GET'])]
     public function show(CategorieP $categorieP): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         return $this->render('categorie_p/show.html.twig', [
             'categorie_p' => $categorieP,
         ]);
@@ -53,6 +55,7 @@ class CategoriePController extends AbstractController
     #[Route('/{id}/edit', name: 'app_categorie_p_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CategorieP $categorieP, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         $form = $this->createForm(CategoriePType::class, $categorieP);
         $form->handleRequest($request);
 
@@ -71,6 +74,7 @@ class CategoriePController extends AbstractController
     #[Route('/{id}', name: 'app_categorie_p_delete', methods: ['POST'])]
     public function delete(Request $request, CategorieP $categorieP, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$categorieP->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($categorieP);
             $entityManager->flush();

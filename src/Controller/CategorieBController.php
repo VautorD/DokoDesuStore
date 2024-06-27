@@ -25,6 +25,7 @@ class CategorieBController extends AbstractController
     #[Route('/new', name: 'app_categorie_b_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         $categorieB = new CategorieB();
         $form = $this->createForm(CategorieBType::class, $categorieB);
         $form->handleRequest($request);
@@ -45,6 +46,7 @@ class CategorieBController extends AbstractController
     #[Route('/{id}', name: 'app_categorie_b_show', methods: ['GET'])]
     public function show(CategorieB $categorieB): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         return $this->render('categorie_b/show.html.twig', [
             'categorie_b' => $categorieB,
         ]);
@@ -53,6 +55,7 @@ class CategorieBController extends AbstractController
     #[Route('/{id}/edit', name: 'app_categorie_b_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CategorieB $categorieB, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         $form = $this->createForm(CategorieBType::class, $categorieB);
         $form->handleRequest($request);
 

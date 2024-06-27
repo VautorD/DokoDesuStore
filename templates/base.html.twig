@@ -45,12 +45,12 @@
         <!-- Partie du bas du header (navigation) -->
         <nav class="bg-white font-medium shadow-custom">
             <ul class="flex justify-around space-x-6 p-4">
-                <li><a href="{{ path('Home') }}" class="text-secondary hover:text-secondary active:text-secondary">Home</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Vêtements</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Cosplay</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Librairies</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Produits dérivés</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Alimentaire</a></li>
+                <li><a href="{{ path ('app_home') }}" class="text-secondary hover:text-secondary active:text-secondary">Home</a></li>
+                <li><a href="{{ path ('path('app_categorie_list', {Slug: "vetement"})') }}" class="hover:text-secondary active:text-secondary">Vêtements</a></li>
+                <li><a href="{{ path (path('app_categorie_list', {Slug: "pull"})) }}" class="hover:text-secondary active:text-secondary">Cosplay</a></li>
+                <li><a href="{{ path (path('app_categorie_list', {Slug: "pull"})) }}" class="hover:text-secondary active:text-secondary">Librairies</a></li>
+                <li><a href="{{ path (path('app_categorie_list', {Slug: "pull"})) }}" class="hover:text-secondary active:text-secondary">Produits dérivés</a></li>
+                <li><a href="{{ path (path('app_categorie_list', {Slug: "pull"})) }}" class="hover:text-secondary active:text-secondary">Alimentaire</a></li>
             </ul>
         </nav>
     </header>

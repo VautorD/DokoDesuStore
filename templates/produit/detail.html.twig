@@ -52,15 +52,15 @@
                 <h2 class="text-xl font-bold">Découvrir la boutique</h2>
                 {% if boutique %}
                     <div class="flex mt-4">
-                        <img class="w-32 h-32 object-cover rounded-lg mr-4" src="{{ asset('build/img/' ~ boutique.getImg()) }}" alt="Logo de {{ boutique.getNom() }}">
+                        <img class="w-32 h-32 object-cover rounded-lg mr-4" src="{{ asset('img/' ~ boutique.getImg()) }}" alt="Logo de {{ boutique.getNom() }}">
                         <div>
                             <h3 class="text-lg font-semibold">{{ boutique.getNom() }}</h3>
                             <p class="text-body-large font-regular">{{ boutique.getAdresse() }}<br>
                                 {{ boutique.getCp() }} {{ boutique.getVille() }}</p>
                             <p class="mt-2">{{ boutique.getDescription() }}</p>
                             <button class="bg-secondary text-white px-4 py-2 rounded-lg mt-4">
-                        <a href="{{ path('app_boutique_template', {'id': boutique.id}) }}">Je découvre</a>
-                    </button>
+                                 <a href="{{ path('app_boutique_template', {'slug': boutique.slug}) }}">Je découvre</a>
+                            </button>
                         </div>
                     </div>
                 {% endif %}

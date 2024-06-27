@@ -24,12 +24,17 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
-    #[Route('/template/{id}', name: 'app_boutique_template', methods: ['GET'])]
-    public function templateBoutique(Boutique $boutique): Response
+    #[Route('/{slug}', name: 'app_boutique_template', methods: ['GET'])]
+    public function templateBoutique(Request $request, BoutiqueRepository $boutiqueRepository): Response
     {
 
+        $slug = $request->attributes->get('slug');
+        $boutique = $boutiqueRepository->findOneBy(['slug' => $slug]);
+        $produit = $boutique->getProduits();
+        
         return $this->render('boutique/templateBoutique.html.twig', [
             'boutique' => $boutique,
+            'produit' => $produit,
         ]);
     }
     

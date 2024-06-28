@@ -9,51 +9,58 @@
             <a href="{{ path('app_produit_all') }}" class='text-secondary underline'>Retour à la liste des produits</a>
         </div>
         {% if data is not empty %}
-            <div class=''>
-                <table>
+            <div>
+                <table class="w-full">
                     <thead>
-                        <tr class='border-b border-strock'>
+                        <tr class='border-b border-stroke'>
                             <th class="py-4 px-15 text-center">Produit</th>
                             <th class="py-4 px-15 text-center">Prix unitaire</th>
                             <th class="py-4 px-15 text-center">Quantité</th>
                             <th class="py-4 px-15 text-center">Total</th>
+                            <th class="py-4 px-15 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in data %}
-                            <tr class="border-b border-strock ">
+                            <tr class="border-b border-stroke">
                                 <td class="py-6 px-15 grid grid-cols-2 gap-4 text-center">
                                     <div class="bg-white p-4 rounded-lg shadow-custom h-36">
-                                        <img class="w-full h-full object-contain" src="{{ item.produit.img }}" alt="{{ item.produit.nom }}">
+                                        <img class="w-full h-full object-contain" src="{{ asset('build/img/' ~ item.produit.img) }}" alt="{{ item.produit.nom }}">
                                     </div>
                                     <div class="flex flex-col gap-4">
                                         <p class="text-body-large font-semibold">{{ item.produit.nom }}</p>
-                                        <a href="{{ path('app_panier_remove', { 'id': item.produit.id }) }}" class="text-secondary underline">Supprimer</a>
                                     </div>
                                 </td>
                                 <td class="py-6 px-15 text-center">{{ item.produit.prix }} €</td>
                                 <td class="py-6 px-15 text-center">
-                                    <input type="number" value="{{ item.quantite }}" min="1" class="w-16 p-2 border rounded">
+                                    <div class="flex justify-center items-center gap-2">
+                                        <a href="{{ path('app_panier_remove', { 'id': item.produit.id }) }}" class="btn-action">-</a>
+                                        <span>{{ item.quantite }}</span>
+                                        <a href="{{ path('app_panier_add', { 'id': item.produit.id }) }}" class="btn-action">+</a>
+                                    </div>
                                 </td>
-                                <td class="py-6 px-15 text-center">{{ total }} €</td>
+                                <td class="py-6 px-15 text-center">{{ item.produit.prix * item.quantite }} €</td>
+                                <td class="py-6 px-15 text-center">
+                                    <a href="{{ path('app_panier_delete', { 'id': item.produit.id }) }}" class="text-secondary underline"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
-                </table>   
+                </table>
             </div>
-            <div class="flex gap-2 items-center justify-end w-full px-24">
+            <div class="flex gap-2 items-center justify-end w-full px-24 mt-4">
                 <strong>Sous-total :</strong>
                 {% set subtotal = 0 %}
                 {% for item in data %}
                     {% set subtotal = subtotal + (item.produit.prix * item.quantite) %}
                 {% endfor %}
                 {{ subtotal }} €
-                <button class="border border-secondary flex justify-center gap-2 text-body-medium font-regular text-secondary px-2 py-2 rounded-lg">
+                <button class="border border-secondary flex justify-center gap-2 text-body-medium font-regular text-secondary px-2 py-2 rounded-lg ml-4">
                     <img src="{{ asset('build/icons/euro-card.png') }}" alt="Icone Euro Card">
                     Réserver maintenant
-                </button>      
-            </div>     
-            <div class="flex w-full px-24">     
+                </button>
+            </div>
+            <div class="flex w-full px-24 mt-4">
                 <a href="{{ path('app_panier_vider') }}" class="text-secondary">Vider le panier</a>
             </div>
         {% else %}

@@ -21,7 +21,8 @@
                 <img src="{{ asset('build/img/logo.png') }}"  alt="Logo" class="h-15">
             </div>
             <div class="relative flex-1 max-w-sm">
-                <input type="text" placeholder="Recherche..."
+                <form action="{{ path('search') }}" method="GET" class="relative flex-1 max-w-sm">
+                <input type="text" name="q" placeholder="Recherche..." value="{{ app.request.query.get('q') }}"
                     class="w-full py-2 pl-10 pr-3 border rounded focus:outline-none focus:ring focus:border-blue-300">
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <img src="{{ asset('build/icons/search-alt.png') }}" alt="search-icon">

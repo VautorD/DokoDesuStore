@@ -23,20 +23,6 @@ class BoutiqueController extends AbstractController
             'boutiques' => $boutiqueRepository->findAll(),
         ]);
     }
-
-    #[Route('/{slug}', name: 'app_boutique_template', methods: ['GET'])]
-    public function templateBoutique(Request $request, BoutiqueRepository $boutiqueRepository): Response
-    {
-
-        $slug = $request->attributes->get('slug');
-        $boutique = $boutiqueRepository->findOneBy(['slug' => $slug]);
-        $produit = $boutique->getProduits();
-        
-        return $this->render('boutique/templateBoutique.html.twig', [
-            'boutique' => $boutique,
-            'produit' => $produit,
-        ]);
-    }
     
     #[Route('/all', name: 'app_boutique_all', methods: ['GET', 'POST'])]
     public function allBoutique(BoutiqueRepository $boutiqueRepository, CategorieBRepository $categorieBRepository, Request $request): Response
@@ -55,6 +41,18 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
+    #[Route('/{slug}', name: 'app_boutique_template', methods: ['GET'])]
+    public function templateBoutique(Request $request, BoutiqueRepository $boutiqueRepository): Response
+    {
+
+        $slug = $request->attributes->get('slug');
+        $boutique = $boutiqueRepository->findOneBy(['slug' => $slug]);
+        
+        return $this->render('boutique/templateBoutique.html.twig', [
+            'boutique' => $boutique,
+        ]);
+    }
+    
     #[Route('/new', name: 'app_boutique_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

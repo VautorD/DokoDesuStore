@@ -40,4 +40,13 @@ class BoutiqueRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByPartialNom(string $term): array
+    {
+        return $this->createQueryBuilder('b')
+        ->where('b.nom LIKE :term')
+        ->setParameter('term', '%' . $term . '%')
+        ->getQuery()
+        ->getResult();
+    }
 }

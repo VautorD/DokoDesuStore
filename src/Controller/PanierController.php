@@ -32,7 +32,10 @@ class PanierController extends AbstractController
                         $total += $produit->getPrix() * $quantite;
                     }
         }
-        return $this->render('panier/index.html.twig', compact('data', 'total'));
+        return $this->render('panier/index.html.twig', [
+            'data' => $data,
+            'total' => $total
+        ]);
     }
 
 
@@ -50,7 +53,7 @@ class PanierController extends AbstractController
 
         $session->set('panier', $panier);
         return $this->redirectToRoute('app_panier_index');
-    }
+    } 
 
     #[Route('/remove/{id}', name: 'app_panier_remove', methods: ['GET'])]
     public function remove(Produit $produit, SessionInterface $session): Response

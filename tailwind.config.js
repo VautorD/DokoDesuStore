@@ -13,7 +13,8 @@ module.exports = {
         'bg': '#EDEFF2',
         'primary-Text': '#111928',
         'secondary-Text': '#8899A8',
-        'strock': '#DFE4EA'
+        'strock': '#DFE4EA',
+        'vert': '#E4F7ED'
       },
       boxShadow: {
         'custom': '0px 4px 4px rgba(0, 0, 0, 0.1)',

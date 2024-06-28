@@ -1,20 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PanierController!{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/doria/Doko_Desu_Store/src/Controller/PanierController.php</code></li>
-        <li>Your template at <code>C:/Users/doria/Doko_Desu_Store/templates/panier/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class='flex items-center gap-10 flex-col p-20'>
+        <div class='flex items-center flex-col gap-5'>
+            <h6 class='font-semibold '>Votre panier</h6>
+            <a href="{{ path('app_produit_all') }}" class='text-secondary underline'>Retour à la liste des produits</a>
+        </div>
+        {% if data is not empty %}
+            <div class=''>
+                <table>
+                    <thead>
+                        <tr class='border-b border-strock'>
+                            <th class="py-4 px-15 text-center">Produit</th>
+                            <th class="py-4 px-15 text-center">Prix unitaire</th>
+                            <th class="py-4 px-15 text-center">Quantité</th>
+                            <th class="py-4 px-15 text-center">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data %}
+                            <tr class="border-b border-strock ">
+                                <td class="py-6 px-15 grid grid-cols-2 gap-4 text-center">
+                                    <div class=""> image </div>
+                                    <div class="flex flex-col">
+                                        {{ item.produit.nom }}
+                                        <a href="{{ path('app_panier_remove', { 'id': item.produit.id }) }}" class="text-secondary underline">Supprimer</a>
+                                    </div>
+                                </td>
+                                <td class="py-6 px-15 text-center">{{ item.produit.prix }} €</td>
+                                <td class="py-6 px-15 text-center">
+                                    <input type="number" value="{{ item.quantite }}" min="1" class="w-16 p-2 border rounded">
+                                </td>
+                                <td class="py-6 px-15 text-center">{{ total }} €</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>   
+            </div>
+            <div class="flex gap-2 items-center justify-end w-full px-24">
+                <strong>Sous-total :</strong>
+                {% set subtotal = 0 %}
+                {% for item in data %}
+                    {% set subtotal = subtotal + (item.produit.prix * item.quantite) %}
+                {% endfor %}
+                {{ subtotal }} €
+                <button class="border border-secondary flex justify-center gap-2 text-body-medium font-regular text-secondary px-2 py-2 rounded-lg">
+                    <img src="{{ asset('build/icons/euro-card.png') }}" alt="Icone Euro Card">
+                    Réserver maintenant
+                </button>      
+            </div>     
+            <div class="flex w-full px-24">     
+                <a href="{{ path('app_panier_vider') }}" class="text-secondary">Vider le panier</a>
+            </div>
+        {% else %}
+            <p>Votre panier est vide.</p>
+        {% endif %}
+    </div>
 {% endblock %}

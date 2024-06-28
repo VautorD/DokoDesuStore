@@ -17,21 +17,43 @@
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
                 {{ form_errors(registrationForm.email) }}
             </div>
-            <div class="mb-6">
-                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
-                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
-                {{ form_errors(registrationForm.plainPassword) }}
+            <div class="mb-4">
+                {{ form_label(registrationForm.nom, 'Nom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+                {{ form_errors(registrationForm.nom) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(registrationForm.prenom, 'Prénom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+                {{ form_errors(registrationForm.prenom) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(registrationForm.tel, 'Téléphone', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(registrationForm.tel, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+                {{ form_errors(registrationForm.tel) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(registrationForm.abonnement, 'Abonnement', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(registrationForm.abonnement, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+                {{ form_errors(registrationForm.abonnement) }}
             </div>
             <div class="mb-6">
-                {{ form_row(registrationForm.agreeTerms, {
+                {{ form_row(registrationForm.RGPDConsent, {
                     'label_attr': {'class': 'block text-sm font-medium text-gray-700'},
                     'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}
                 }) }}
             </div>
 
+            <div class="mb-6">
+                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+
             <button type="submit" class="btn btn-lg btn-primary w-full py-2 px-4 mb-6 rounded bg-secondary text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">
                 Register
             </button>
+            <p class="centered-text">Vous n'êtes pas inscrit(e) ? <a href="{{ path('app_register')}}">M'inscrire</a></p>
             {{ form_end(registrationForm) }}
         </form>
     </div>

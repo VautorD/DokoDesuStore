@@ -7,8 +7,6 @@
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
-node_modules
 
 ###> symfony/framework-bundle ###
 /.env.local

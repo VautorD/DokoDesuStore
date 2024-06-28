@@ -16,35 +16,75 @@
     <header class="bg-white">
         <!-- Partie du haut du header -->
         <div class="max-w-screen-lg mx-auto p-4 flex items-center justify-between">
+
             <div class="flex items-center space-x-4">
                 <!-- Logo -->
-                <img src="{{ asset('build/img/logo.png') }}"  alt="Logo" class="h-15">
+                <img src="{{ asset('build/img/logo.png') }}" alt="Logo" class="h-15">
             </div>
+
             <div class="relative flex-1 max-w-sm">
                 <form action="{{ path('search') }}" method="GET" class="relative flex-1 max-w-sm">
-                <input type="text" name="q" placeholder="Recherche..." value="{{ app.request.query.get('q') }}"
-                    class="w-full py-2 pl-10 pr-3 border rounded focus:outline-none focus:ring focus:border-blue-300">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <img src="{{ asset('build/icons/search-alt.png') }}" alt="search-icon">
-                </div>
+                    <input type="text" name="q" placeholder="Recherche..." value="{{ app.request.query.get('q') }}"
+                        class="w-full py-2 pl-10 pr-3 border rounded focus:outline-none focus:ring focus:border-blue-300">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <img src="{{ asset('build/icons/search-alt.png') }}" alt="search-icon">
+                    </div>
+                </form>
             </div>
+
             <div class="flex items-end pb-2 space-x-4">
-                <!-- Icone utilisateur avec effet au survol -->
-                <div class="icon-container group">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                        class="size-6 hover:text-secondary">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
-                </div>
-                <!-- Icone panier avec effet au survol -->
-                <div class="icon-container group">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                        class="size-6 hover:text-secondary">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    </svg>
-                </div>
+                {% if app.user %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="icon-container group">
+                            <a href="{{ path('app_admin_index') }}">
+                                <img src="{{ asset('build/icons/admin.png') }}" alt="Admin" class="size-6 hover:text-secondary">
+                            </a>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Icone utilisateur avec effet au survol -->
+                    <div class="icon-container group">
+                        <a href="{{ path('app_profile_index') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6 hover:text-secondary">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <!-- Icone panier avec effet au survol -->
+                    <div class="icon-container group">
+                        <a href="{{ path('app_panier_index') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6 hover:text-secondary">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                {% else %}
+                    <!-- Icone utilisateur avec effet au survol -->
+                    <div class="icon-container group">
+                        <a href="{{ path('app_login') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6 hover:text-secondary">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <!-- Icone panier avec effet au survol -->
+                    <div class="icon-container group">
+                        <a href="{{ path('app_login') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6 hover:text-secondary">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <!-- Partie du bas du header (navigation) -->

@@ -1,41 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CategorieB index{% endblock %}
+{% block title %}Categorie index{% endblock %}
 
 {% block body %}
-    <h1>CategorieB index</h1>
+    <div class="container mx-auto">
+        <div class="flex">
+            <aside class="w-72 bg-gray-100 p-4">
+                {% include "_partieAdmin/_adminbarre.html.twig" %}
+            </aside>
+            
+            <main class="flex-1 border border-gray-200 bg-white p-4">
+                <h1 class="text-2xl font-bold mb-4">Liste des catégories de boutique</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Slug</th>
-                <th>Img</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for categorie_b in categorie_bs %}
-            <tr>
-                <td>{{ categorie_b.id }}</td>
-                <td>{{ categorie_b.nom }}</td>
-                <td>{{ categorie_b.description }}</td>
-                <td>{{ categorie_b.slug }}</td>
-                <td>{{ categorie_b.img }}</td>
-                <td>
-                    <a href="{{ path('app_categorie_b_show', {'id': categorie_b.id}) }}">show</a>
-                    <a href="{{ path('app_categorie_b_edit', {'id': categorie_b.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600">
+                                <th class="py-2 px-4 text-center">Id</th>
+                                <th class="py-2 px-4 text-center">Nom</th>
+                                <th class="py-2 px-4 text-center">Description</th>
+                                <th class="py-2 px-4 text-center">Image</th>
+                                <th class="py-2 px-4 text-center">Slug</th>
+                                <th class="py-2 px-4 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for categorie_b in categorie_bs %}
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-2 px-4 text-center">{{ categorie_b.id }}</td>
+                                    <td class="py-2 px-4">{{ categorie_b.Nom }}</td>
+                                    <td class="py-2 px-4">{{ categorie_b.Description }}</td>
+                                    <td class="py-2 px-4">
+                                        <img src="{{ asset('build/img/' ~ categorie_b.img) }}" alt="{{ categorie_b.Nom }}" class="mx-auto h-12 w-12 object-cover rounded-full">
+                                    </td>
+                                    <td class="py-2 px-4 text-center">{{ categorie_b.Slug }}</td>
+                                    <td class="py-2 px-4 text-center">
+                                        <a href="{{ path('app_categorie_b_show', {'id': categorie_b.id}) }}" class="text-blue-500 hover:text-blue-600 mr-2">Voir</a>
+                                        <a href="{{ path('app_categorie_b_edit', {'id': categorie_b.id}) }}" class="text-yellow-500 hover:text-yellow-600">Éditer</a>
+                                        <a href="{{ path('app_categorie_b_delete', {'id': categorie_b.id}) }}" class="text-red-500 hover:text-yellow-600">Suppr</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="py-4 text-center">Aucun enregistrement trouvé.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
-    <a href="{{ path('app_categorie_b_new') }}">Create new</a>
+                <a href="{{ path('app_categorie_b_new') }}" class="inline-block mx-auto py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">Créer une nouvelle catégorie</a>
+            </main>
+        </div>
+    </div>
 {% endblock %}

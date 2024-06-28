@@ -147,8 +147,8 @@
                 
                 {% for produit in produits %}
                     <div class="bg-white p-4 rounded-lg shadow-custom">
-                    <a href="{{ path('app_produit_show', { 'id': produit.id }) }}">
-                        <img src="{{ produit.img }}" alt="{{ produit.nom }}" class="w-full h-40 object-cover rounded-t-lg">
+                    <a href="{{ path('app_produit_details', { 'slug': produit.slug }) }}">
+                        <img src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}" class="w-full h-40 object-cover rounded-t-lg">
                         <div class="mt-2">
                             <h3 class="text-lg font-semibold">{{ produit.nom }} </h3>
                             <p class="text-secondary font-bold">{{ produit.prix }} €</p>

@@ -60,7 +60,7 @@
             <h2 class="text-2xl font-semibold mb-4">Toutes les boutiques</h2>
             {% for boutique in boutiques %}
                 <div class="bg-white shadow-md rounded-lg p-4 mb-4 flex">
-                    <img src="/img/coolJapan-boutique.jpg" alt="Boutique" class="w-[271px] h-[203px] object-cover rounded mr-4">
+                    <img src="{{ asset('img/' ~ boutique.img) }}" alt="Image de {{ boutique.nom }}" class="w-[271px] h-[203px] object-cover rounded mr-4">
                     <div class="flex flex-col justify-between">
                         <h3 class="text-xl font-semibold">{{ boutique.nom }}</h3>
                         <p class="text-gray-600">{{ boutique.adresse }}</p>

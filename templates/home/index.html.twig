@@ -3,10 +3,10 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-	<div class="relative h-[540px] bg-cover bg-center mb-8" style="background-image: url('build/img/homeBanniere.jpeg');">
+	<div class="relative h-[540px] bg-cover bg-center mb-8" style="background-image: url('img/homeBanniere.jpeg');">
 		<div class="absolute inset-0 flex items-center justify-center">
 			<div class="bg-[#F7F8FA]/80 backdrop-blur-md h-[380px] w-full max-w-4xl mx-4 p-6 rounded-lg flex flex-col items-center justify-center text-center">
-				<img src="/build/img/iconeFleur.png" alt="Icône Fleur" class="h-20 w-19 mb-4">
+				<img src="img/iconeFleur.png" alt="Icône Fleur" class="h-20 w-19 mb-4">
 				<h1 class="text-4xl font-bold mb-6 max-w-[450px] leading-normal">Vos boutiques préférées en un clic !</h1>
 				<h2 class="text-xl mb-6 max-w-[520px] leading-normal">Retrouvez les boutiques physiques de la culture japonaise proches de chez vous.</h2>
 				<a href="{{ path('app_boutique_all') }}" class="btn btn-lg btn-primary w-[300px] py-2 px-4 mb-6 rounded bg-secondary text-white hover:bg-[#F7F8FA]/80 hover:text-secondary border border-transparent hover:border-secondary transition duration-300">Découvrir les boutiques</a>
@@ -20,13 +20,15 @@
 			<h2 class="text-sm text-gray-700 mb-8">Commandez pour vous ou vos proches.</h2>
 		</div>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-			<div class="w-[255px] h-[230px] rounded overflow-hidden shadow-lg mx-auto">
-				<img class="w-full h-36 object-cover" src="" alt="Produit">
-				<div class="px-6 py-4">
-					<div class="font-bold text-start text-l mb-2">Nom du produit</div>
-					<p class="text-secondary text-end text-base">prix</p>
+			{% for produit in produits|slice(0, 12) %}
+				<div class="w-[255px] h-[230px] rounded overflow-hidden shadow-lg mx-auto">
+					<img class="w-full h-36 object-cover" src="{{ asset('build/img/' ~ produit.img) }}" alt="Produit">
+					<div class="px-6 py-4">
+						<div class="font-bold text-start text-l mb-2">{{ produit.nom }}</div>
+						<p class="text-secondary text-end text-base">{{ produit.prix }} €</p>
+					</div>
 				</div>
-			</div>
+			{% endfor %}
 		</div>
 	</div>
 	{# Meilleurs ventes alimentaires #}
@@ -59,19 +61,29 @@
 			</div>
 		</div>
 	</div>
-    {# quelques catégories produits #}
+	
+    {# quelques catégories boutique #}
     <div class="w-full bg-vert py-16">
-    <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold mb-4 mt-8">Catégories de produits</h1>
-        <h2 class="text-sm text-gray-700 mb-8">Des articles pour tous les goûts.</h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="w-[350px] h-[230px] rounded overflow-hidden shadow-lg mx-auto bg-white">
-            <img class="w-full h-36 object-cover" src="" alt="Produit">
-            <div class="px-6 py-4">
-                <div class="font-bold text-center text-l mb-2">Nom de la catégorie</div>
-            </div>
-        </div>
-    </div>
-</div>
+		<div class="text-center mb-8">
+			<h1 class="text-4xl font-bold mb-4 mt-8">Catégories de boutique</h1>
+			<h2 class="text-sm text-gray-700 mb-8">Des boutiques pour tous les goûts.</h2>
+		</div>
+		<section class="mb-12">
+			<h2 class="text-2xl font-bold mb-6">Catégories</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+				{% for categorie in categoriesB|slice(0, 4) %}
+					<div class="w-[350px] h-[230px] rounded overflow-hidden shadow-lg mx-auto bg-white">
+						{% if categorie.img %}
+							<img class="w-full h-36 object-cover" src="{{ asset('uploads/' ~ categorie.img) }}" alt="{{ categorie.nom }}">
+						{% else %}
+							<img class="w-full h-36 object-cover" src="{{ asset('default_image_path') }}" alt="Default Image">
+						{% endif %}
+						<div class="px-6 py-4">
+							<div class="font-bold text-center text-l mb-2">{{ categorie.nom }}</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+	</div>
 {% endblock %}

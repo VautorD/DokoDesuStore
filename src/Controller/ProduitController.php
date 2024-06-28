@@ -22,6 +22,26 @@ class ProduitController extends AbstractController
         ]);
     }
 
+    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $produit = new Produit();
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($produit);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('produit/new.html.twig', [
+            'produit' => $produit,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/all', name: 'app_produit_all', methods: ['GET'])]
     public function all(ProduitRepository $produitRepository): Response
     {
@@ -41,26 +61,6 @@ class ProduitController extends AbstractController
         return $this->render('produit/detail.html.twig', [
             'produit' => $produit,
             'boutique' => $boutique,
-        ]);
-    }
-
-    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($produit);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('produit/new.html.twig', [
-            'produit' => $produit,
-            'form' => $form,
         ]);
     }
 

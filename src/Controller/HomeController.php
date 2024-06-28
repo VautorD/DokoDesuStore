@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
+    #[Route('/', name: 'home')]
     public function index(CategorieBRepository $categorieBRepository, ProduitRepository $produitRepository, BoutiqueRepository $boutiqueRepository): Response
     {
         return $this->render('home/index.html.twig', [

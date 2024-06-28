@@ -42,7 +42,7 @@ class Boutique
     #[ORM\JoinColumn(nullable: false)]
     private ?CategorieB $categorieB = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

@@ -13,6 +13,11 @@
 
             {{ form_start(registrationForm) }}
             <div class="mb-4">
+                {{ form_label(registrationForm.boutique, 'Avez-vous une boutique ?', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(registrationForm.boutique, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+                {{ form_errors(registrationForm.boutique) }}
+            </div>
+            <div class="mb-4">
                 {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
                 {{ form_errors(registrationForm.email) }}
@@ -53,7 +58,7 @@
             <button type="submit" class="btn btn-lg btn-primary w-full py-2 px-4 mb-6 rounded bg-secondary text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">
                 Register
             </button>
-            <p class="centered-text">Vous n'êtes pas inscrit(e) ? <a href="{{ path('app_register')}}">M'inscrire</a></p>
+            <p class="centered-text">Vous n'êtes pas inscrit(e) ? <a href="{{ path('app_login')}}">M'inscrire</a></p>
             {{ form_end(registrationForm) }}
         </form>
     </div>

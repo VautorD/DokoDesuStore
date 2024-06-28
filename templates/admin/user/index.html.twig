@@ -1,36 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des utilisateurs{% endblock %}
+{% block title %}Boutique index{% endblock %}
 
 {% block body %}
     <div class="container mx-auto">
         <div class="flex">
-            {% include "_partieAdmin/_adminbarre.html.twig" %}
-
+            <aside class="w-72 bg-gray-100 p-4">
+                {% include "_partieAdmin/_adminbarre.html.twig" %}
+            </aside>
+            
             <main class="flex-1 border border-gray-200 bg-white p-4">
-                <h1 class="text-xl font-bold mb-4">Liste des utilisateurs</h1>
+                <h1 class="text-2xl font-bold mb-4">Liste des utilisateurs</h1>
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600">
-                                <th class="py-2 px-4">ID</th>
-                                <th class="py-2 px-4">Email</th>
-                                <th class="py-2 px-4">Nom</th>
-                                <th class="py-2 px-4">Prénom</th>
-                                <th class="py-2 px-4">Téléphone</th>
-                                <th class="py-2 px-4">Rôles</th>
+                                <th class="py-2 px-4 text-center">Id</th>
+                                <th class="py-2 px-4 text-center">Email</th>
+                                <th class="py-2 px-4 text-center">Nom</th>
+                                <th class="py-2 px-4 text-center">Prenom</th>
+                                <th class="py-2 px-4 text-center">Tel</th>
+                                <th class="py-2 px-4 text-center">Roles</th>
+                                <th class="py-2 px-4 text-center">Email Verifié</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for user in users %}
                                 <tr class="border-b border-gray-200">
-                                    <td class="py-2 px-4">{{ user.getId() }}</td>
-                                    <td class="py-2 px-4">{{ user.getEmail() }}</td>
-                                    <td class="py-2 px-4">{{ user.getNom() }}</td>
-                                    <td class="py-2 px-4">{{ user.getPrenom() }}</td>
-                                    <td class="py-2 px-4">{{ user.getTel() }}</td>
-                                    <td class="py-2 px-4">{{ user.getRoles()|join(', ') }}</td>
+                                    <td class="py-2 px-4 text-left">{{ user.getId() }}</td>
+                                    <td class="py-2 px-4 text-left">{{ user.getEmail() }}</td>
+                                    <td class="py-2 px-4 text-left">{{ user.getNom() }}</td>
+                                    <td class="py-2 px-4 text-left">{{ user.getPrenom() }}</td>
+                                    <td class="py-2 px-4 text-left">{{ user.getTel() }}</td>
+                                    <td class="py-2 px-4 text-left">{{ user.getRoles()|join(', ') }}</td>
+                                    <td class="py-2 px-4 text-left">
+                                        {% if user.isVerified() %}
+                                            oui
+                                        {% else %}
+                                            non
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% else %}
                                 <tr>

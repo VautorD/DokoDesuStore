@@ -39,6 +39,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Récupérer la valeur du champ boutique
+            $hasBoutique = $form->get('boutique')->getData();
+
+            // Attribution du rôle en fonction du champ boutique
+            $role = ($hasBoutique) ? 'ROLE_ADMIN' : 'ROLE_USER';
+            $user->setRoles([$role]);
+
             $entityManager->persist($user);
             $entityManager->flush();
 

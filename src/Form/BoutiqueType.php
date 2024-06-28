@@ -22,13 +22,11 @@ class BoutiqueType extends AbstractType
             ->add('ville')
             ->add('img')
             ->add('tel')
+            ->add('description')
             ->add('categorieB', EntityType::class, [
                 'class' => CategorieB::class,
-                'choice_label' => 'id',
-            ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+                'label' => 'Categorie',
+                'choice_label' => 'nom',
             ])
         ;
     }

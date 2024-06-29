@@ -5,40 +5,39 @@
 {% block title %}Mon Compte{% endblock %}
 
 {% block body %}
-    <main class="container my-3">
-        <section class="row justify-content-center">
-            <h1 class="h3 mb-3 font-weight-normal center">Mon Compte</h1>
-            <form class="col-sm-12 col-md-8 col-lg-6">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" value="{{ user.email }}" disabled>
-                </div>
-                <div class="mb-3">
-                    <label for="nom" class="form-label">Nom</label>
-                    <input type="text" class="form-control" id="nom" value="{{ user.nom }}">
-                </div>
-                <div class="mb-3">
-                    <label for="prenom" class="form-label">Prénom</label>
-                    <input type="text" class="form-control" id="prenom" value="{{ user.prenom }}">
-                </div>
-                <div class="mb-3">
-                    <label for="tel" class="form-label">Téléphone</label>
-                    <input type="text" class="form-control" id="tel" value="{{ user.tel }}">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" id="password" value="**********" disabled>
-                </div>
-            </form>
-        </section>
-        <section>
-            <div>
-                {% if boutique %}
-                    <a href="{{ path('app_professionel_boutique', {'id': boutique.id}) }}" class="btn btn-primary">Gérer ma boutique</a>
-                {% else %}
-                    <a href="{{ path('app_boutique_new') }}" class="btn btn-primary">Enregistrer ma boutique</a>
-                {% endif %}
-            </div>
-        </section>
-    </main>
+
+    <div class="container mx-auto">
+        <div class="flex">
+            <aside class="w-72 bg-gray-100 p-4">
+                {% include "_partieMoncompte/_moncomptebarre.html.twig" %}
+            </aside>
+            <main class="container my-3">
+                <section class="row justify-content-center">
+                    <h1 class="h3 mb-3 font-weight-normal center">Mon Compte</h1>
+                    <form class="col-sm-12 col-md-8 col-lg-6">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" value="{{ user.email }}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="nom" value="{{ user.nom }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="prenom" class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="prenom" value="{{ user.prenom }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tel" class="form-label">Téléphone</label>
+                            <input type="text" class="form-control" id="tel" value="{{ user.tel }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" value="**********" disabled>
+                        </div>
+                    </form>
+                </section>
+            </main>
+        </div>
+    </div>
 {% endblock %}

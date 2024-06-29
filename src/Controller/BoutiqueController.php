@@ -72,6 +72,7 @@ class BoutiqueController extends AbstractController
         return $slug;
     }
     
+    //Afficher les boutiques avec possibilité de filtrer par catégorie
     #[Route('/all', name: 'app_boutique_all', methods: ['GET', 'POST'])]
     public function allBoutique(BoutiqueRepository $boutiqueRepository, CategorieBRepository $categorieBRepository, Request $request): Response
     {
@@ -97,6 +98,7 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
+    //Afficher les boutiques par leur slug
     #[Route('/{slug}', name: 'app_boutique_template', methods: ['GET'])]
     public function templateBoutique(Request $request, BoutiqueRepository $boutiqueRepository): Response
     {
@@ -109,6 +111,7 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
+    //Pour qu un professionnel modifie sa boutique
     #[Route('/professionnel/{id}', name: 'app_professionel_boutique', methods: ['GET'])]
     public function showMyBoutique(BoutiqueRepository $boutiqueRepository): Response
     {
@@ -133,6 +136,7 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
+    //Modifier
     #[Route('/{id}/edit', name: 'app_boutique_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Boutique $boutique, EntityManagerInterface $entityManager): Response
     {

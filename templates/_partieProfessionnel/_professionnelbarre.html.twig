@@ -1,0 +1,19 @@
+    <div class="container mx-auto">
+        <div class="flex">
+            <aside class="w-72 border-l border-gray-200">
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold mb-4">Ma Boutique</h2>
+                    <ul>
+                        <li><a href="{{ path('app_boutique_edit', {'id': boutique.id}) }}" class="text-blue-600 hover:text-blue-800">Gérer ma boutique</a></li>
+                    </ul>
+                </div>
+                <div class="p-4 mt-4">
+                    <h2 class="text-xl font-semibold mb-4">Produits</h2>
+                    <ul>
+                        <li><a href="{{ path('app_produit_new') }}" class="text-blue-600 hover:text-blue-800">Ajouter un produit</a></li>
+                        <li><a href="{{ path('app_produit_new') }}" class="text-blue-600 hover:text-blue-800">Listes des produits</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>

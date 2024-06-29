@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use App\Repository\CategoriePRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,12 +44,33 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/all', name: 'app_produit_all', methods: ['GET'])]
-    public function all(ProduitRepository $produitRepository): Response
+    public function all(ProduitRepository $produitRepository, CategoriePRepository $categoriePRepository, Request $request): Response
     {
+        $categorieId = $request->query->get('categorie');
+        $produits = [];
+
+        if ($categorieId) {
+            $categorie = $categoriePRepository->find($categorieId);
+            if ($categorie->getParent() === null) {
+                // C'est une catégorie mère, obtenir tous les produits dans cette catégorie et ses enfants
+                $childCategories = $categoriePRepository->findBy(['parent' => $categorieId]);
+                $childCategoryIds = array_map(fn($cat) => $cat->getId(), $childCategories);
+                $produits = $produitRepository->findBy(['categorieP' => array_merge([$categorieId], $childCategoryIds)]);
+            } else {
+                // C'est une catégorie enfant, obtenir les produits dans cette catégorie uniquement
+                $produits = $produitRepository->findBy(['categorieP' => $categorieId]);
+            }
+        } else {
+            $produits = $produitRepository->findAll();
+        }
+
         return $this->render('produit/all.html.twig', [
-            'produits' => $produitRepository->findAll(),
+            'produits' => $produits,
+            'categorie_ps' => $categoriePRepository->findAll(),
         ]);
     }
+
+
 
     #[Route('/{slug}', name: 'app_produit_details', methods: ['GET'])]
     public function details(Request $request, ProduitRepository $produitRepository): Response

@@ -2,11 +2,9 @@
 
 {% block title %}Toutes les boutiques{% endblock %}
 
-{% block banniere %}
-    <div class="w-full h-[400px] bg-cover bg-center" style="background-image: url('/img/boutiques.webp');"></div>
-{% endblock %}
+{% block body %}
 
-{% block breadcrumb %}
+    <div class="w-full h-[400px] bg-cover bg-center" style="background-image: url('/img/boutiques.webp');"></div>
     <div class="container px-4 py-4">
         <nav class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -37,9 +35,6 @@
             </ol>
         </nav>
     </div>
-{% endblock %}
-
-{% block body %}
     <div class="flex">
         <div class="w-full lg:w-1/4 p-4 bg-white shadow-md rounded-lg">
             <h2 class="text-xl font-semibold mb-4">Filtrer</h2>

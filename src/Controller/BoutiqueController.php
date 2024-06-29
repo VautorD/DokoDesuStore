@@ -50,7 +50,11 @@ class BoutiqueController extends AbstractController
             $em->persist($boutique);
             $em->flush();
 
-            return $this->redirectToRoute('app_boutique_index');
+            if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+                return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
+            } elseif ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('app_professionnel', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('boutique/new.html.twig', [
@@ -115,18 +119,16 @@ class BoutiqueController extends AbstractController
     #[Route('/professionnel/{id}', name: 'app_professionel_boutique', methods: ['GET'])]
     public function showMyBoutique(BoutiqueRepository $boutiqueRepository): Response
     {
-        // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
-        // Vérifier si l'utilisateur est connecté
         if (!$user) {
             throw new AccessDeniedException('Vous devez être connecté pour accéder à cette page.');
         }
 
-        // Récupérer la boutique associée à l'utilisateur connecté
+        // Récupérer la boutique associée au user connecté
         $boutique = $boutiqueRepository->findOneBy(['user' => $user]);
 
-        // Vérifier si la boutique existe
+        // Vérifier s il a une boutique
         if (!$boutique) {
             throw new AccessDeniedException('Vous n\'avez pas de boutique associée à votre compte.');
         }
@@ -146,7 +148,11 @@ class BoutiqueController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
+            if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+                return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
+            } elseif ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('app_professionnel', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('boutique/edit.html.twig', [

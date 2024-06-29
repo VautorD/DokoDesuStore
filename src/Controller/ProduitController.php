@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use App\Repository\BoutiqueRepository;
 use App\Repository\CategoriePRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,10 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
 {
+    public function __construct(private SluggerInterface $slugger){}
+
     #[Route('/', name: 'app_produit_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository): Response
     {
@@ -24,22 +28,82 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, BoutiqueRepository $boutiqueRepository): Response
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            // Trouver la boutique associée à cet utilisateur
+            $boutique = $boutiqueRepository->findOneBy(['user' => $user]);
+
+            // Assurez-vous que $boutique est définie et non null
+            if (!$boutique) {
+                throw new \RuntimeException('User does not have an associated boutique.');
+            }
+
+            // Assigner la boutique au produit
+            $produit->setBoutique($boutique);
+
+            $slug = $this->slugger->slug($produit->getNom())->lower();
+            $slug = $this->makeSlugUnique($slug, $entityManager);
+
+            $produit->setSlug($slug);
+
             $entityManager->persist($produit);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-        }
+            if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+                    return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+                } elseif ($this->isGranted('ROLE_ADMIN')) {
+                    return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
+                }
+            }
 
         return $this->render('produit/new.html.twig', [
             'produit' => $produit,
-            'form' => $form,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    //Pour eviter les slug en double dans la bdd on rajoute un nombre
+    private function makeSlugUnique(string $slug, EntityManagerInterface $em): string
+    {
+        $originalSlug = $slug;
+        $i = 1;
+
+        while ($em->getRepository(Produit::class)->findOneBy(['slug' => $slug])) {
+            $slug = $originalSlug . '-' . $i;
+            $i++;
+        }
+
+        return $slug;
+    }
+
+    #[Route('/produit/list', name: 'app_produit_boutique', methods: ['GET'])]
+    public function listByBoutique(ProduitRepository $produitRepository, BoutiqueRepository $boutiqueRepository): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Trouver la boutique associée à cet utilisateur
+        $boutique = $boutiqueRepository->findOneBy(['user' => $user]);
+
+        // Assurez-vous que $boutique est définie et non null
+        if (!$boutique) {
+            throw new \RuntimeException('User does not have an associated boutique.');
+        }
+
+        // Récupérer les produits de cette boutique
+        $produits = $produitRepository->findBy(['boutique' => $boutique]);
+
+        return $this->render('produit/list.html.twig', [
+            'boutique' => $boutique,
+            'produits' => $produits,
         ]);
     }
 
@@ -69,8 +133,6 @@ class ProduitController extends AbstractController
             'categorie_ps' => $categoriePRepository->findAll(),
         ]);
     }
-
-
 
     #[Route('/{slug}', name: 'app_produit_details', methods: ['GET'])]
     public function details(Request $request, ProduitRepository $produitRepository): Response
@@ -103,7 +165,11 @@ class ProduitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+            if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+                return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+            } elseif ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('produit/edit.html.twig', [

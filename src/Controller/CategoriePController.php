@@ -43,6 +43,36 @@ class CategoriePController extends AbstractController
         ]);
     }
 
+    #[Route('/{slug}', name: 'app_categorieP_list', methods: ['GET'])]
+    public function list(Request $request, CategoriePRepository $categoriePRepository): Response
+    {
+        
+        $slug = $request->attributes->get('slug');
+        $categorie_p = $categoriePRepository->findOneBy(['slug' => $slug]);
+
+        $produits = $this->getProduitsRecursive($categorie_p);
+
+        return $this->render('categorie_p/list.html.twig', [
+            'categorie_p' => $categorie_p,
+            'produits' => $produits
+        ]);
+    }
+
+    private function getProduitsRecursive(CategorieP $categorieP): array
+    {
+        $produits = [];
+
+        foreach ($categorieP->getProduits() as $produit) {
+            $produits[] = $produit;
+        }
+
+        foreach ($categorieP->getCategoriePs() as $sousCategorieP) {
+            $produits = array_merge($produits, $this->getProduitsRecursive($sousCategorieP));
+        }
+
+        return $produits;
+    }
+
     #[Route('/{id}', name: 'app_categorie_p_show', methods: ['GET'])]
     public function show(CategorieP $categorieP): Response
     {

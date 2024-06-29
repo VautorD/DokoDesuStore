@@ -4,7 +4,7 @@
                 <div class="p-4">
                     <h2 class="text-xl font-semibold mb-4">Mes informations personnelles</h2>
                     <ul>
-                        <li><a href="{{ path('app_boutique_edit', {'id': boutique.id}) }}" class="text-blue-600 hover:text-blue-800">Gérer ma boutique</a></li>
+                        <li><a href="{{ path('app_user_profile_edit') }}" class="text-blue-600 hover:text-blue-800">Gérer mes informations</a></li>
                     </ul>
                 </div>
                 <div class="p-4 mt-4">
@@ -16,9 +16,9 @@
                         <h2 class="text-xl font-semibold mb-4">Ma boutique</h2>
                         <div>
                             {% if boutique %}
-                                <a href="{{ path('app_professionnel') }}" class="text-blue-600 hover:text-blue-800">Gérer ma boutique</a>
+                        <li><a href="{{ path('app_professionnel') }}" class="text-blue-600 hover:text-blue-800">Gérer ma boutique</a></li>
                             {% else %}
-                               <a href="{{ path('app_boutique_new') }}" class="text-blue-600 hover:text-blue-800">Enregistrer ma boutique</a>
+                        <li><a href="{{ path('app_boutique_new') }}" class="text-blue-600 hover:text-blue-800">Enregistrer ma boutique</a></li>
                             {% endif %}
                          </div>
                     </ul>

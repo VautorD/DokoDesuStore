@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Boutique;
 use App\Entity\CategorieP;
 use App\Entity\Produit;
+use App\Repository\CategoriePRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,13 +21,17 @@ class ProduitType extends AbstractType
             ->add('marque')
             ->add('description')
             ->add('img')
-            ->add('categorieP', EntityType::class, [
+            ->add('categorie_p', EntityType::class, [
                 'class' => CategorieP::class,
-                'choice_label' => 'id',
-            ])
-            ->add('boutique', EntityType::class, [
-                'class' => Boutique::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
+                'label' => 'Catégorie',
+                'group_by' => 'parent.nom',
+                'query_builder' => function(CategoriePRepository $categoriePRepository)
+                {
+                    return $categoriePRepository->createQueryBuilder('c')
+                        ->where('c.parent IS NOT NULL')
+                        ->orderBy('c.nom', 'ASC');
+                }
             ])
         ;
     }

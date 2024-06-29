@@ -6,35 +6,36 @@
     <img class="w-full h-[400px]" src="{{ asset('build/img/banniere_tout_produits.png') }}" alt="bannière page tout les produits">
     <div class="grid grid-cols-5 p-15 gap-4">
         <div class="w-full  p-4 bg-white shadow-md rounded-lg">
-        <h2 class="text-xl font-semibold mb-4">Filtrer</h2>
+            <h2 class="text-xl font-semibold mb-4">Filtrer</h2>
             <div class="relative mb-4">
-                <button class="w-full text-gray-700 py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <div class="w-full text-gray-700 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Catégories
-                </button>
-                <div class="hidden absolute w-full mt-1 rounded bg-white shadow-lg">
+                </div>
+                <div class="w-full">
                     {% for categorie_m in categorie_ps %}
                         {% if categorie_m.parent is null %}
-                            <div class="p-2">
-                                <a href="{{ path('app_produit_all', {categorie: categorie_m.id}) }}" class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white">{{ categorie_m.nom }}</a>
+                            <details class="p-2">
+                                <summary class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white cursor-pointer border border-strock rounded">{{ categorie_m.nom }}</summary>
                                 {% set has_children = false %}
-                                {% for categorie_e in categorie_ps %}
-                                    {% if categorie_e.parent and categorie_e.parent.id == categorie_m.id %}
-                                        {% if not has_children %}
-                                            {% set has_children = true %}
-                                            <div class="ml-4">
+                                <div class="w-full border border-strock">
+                                    <a href="{{ path('app_produit_all', {categorie: categorie_m.id}) }}" class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white ml-4">Tout</a>
+                                    {% for categorie_e in categorie_ps %}
+                                        {% if categorie_e.parent and categorie_e.parent.id == categorie_m.id %}
+                                            {% if not has_children %}
+                                                {% set has_children = true %}
+                                            {% endif %}
+                                            <a href="{{ path('app_produit_all', {categorie: categorie_e.id}) }}" class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white ml-4">{{ categorie_e.nom }}</a>
                                         {% endif %}
-                                        <a href="{{ path('app_produit_all', {categorie: categorie_e.id}) }}" class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white ml-4">{{ categorie_e.nom }}</a>
-                                    {% endif %}
-                                {% endfor %}
-                                {% if has_children %}
-                                    </div>
-                                {% endif %}
-                            </div>
+                                    {% endfor %}
+                                </div>
+                            </details>
                         {% endif %}
                     {% endfor %}
                 </div>
             </div>
+
         </div>
+
         <div class="col-span-4 p-5">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <div class="bg-white p-4 rounded-lg shadow-custom">

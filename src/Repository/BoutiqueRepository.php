@@ -16,6 +16,21 @@ class BoutiqueRepository extends ServiceEntityRepository
         parent::__construct($registry, Boutique::class);
     }
 
+    /**
+     * On récupère la boutique associée à l'utilisateur connecté.
+     *
+     * @param int $userId L'identifiant de l'utilisateur
+     * @return Boutique|null La boutique trouvée ou null
+     */
+    public function findOneByUser(int $userId): ?Boutique
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Boutique[] Returns an array of Boutique objects
     //     */

@@ -7,9 +7,9 @@ use App\Form\BoutiqueType;
 use App\Repository\BoutiqueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategorieBRepository;
-use App\Entity\CategorieB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,6 +105,30 @@ class BoutiqueController extends AbstractController
         $boutique = $boutiqueRepository->findOneBy(['slug' => $slug]);
         
         return $this->render('boutique/templateBoutique.html.twig', [
+            'boutique' => $boutique,
+        ]);
+    }
+
+    #[Route('/professionnel/{id}', name: 'app_professionel_boutique', methods: ['GET'])]
+    public function showMyBoutique(BoutiqueRepository $boutiqueRepository): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            throw new AccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+        }
+
+        // Récupérer la boutique associée à l'utilisateur connecté
+        $boutique = $boutiqueRepository->findOneBy(['user' => $user]);
+
+        // Vérifier si la boutique existe
+        if (!$boutique) {
+            throw new AccessDeniedException('Vous n\'avez pas de boutique associée à votre compte.');
+        }
+
+        return $this->render('boutique/show.html.twig', [
             'boutique' => $boutique,
         ]);
     }

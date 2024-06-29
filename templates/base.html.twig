@@ -35,7 +35,7 @@
             <div class="flex items-end pb-2 space-x-4">
                 {% if app.user %}
 
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <div class="icon-container group">
                             <a href="{{ path('app_admin_index') }}">
                                 <img src="{{ asset('build/icons/admin.png') }}" alt="Admin" class="size-6 hover:text-secondary">

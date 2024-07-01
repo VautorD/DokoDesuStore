@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
 <div class="relative h-[960px] bg-cover bg-center" style="background-image: url('/build/img/connexion.jpeg');">
     <div class="flex items-center justify-center h-full">
         <form method="post" class="bg-white p-8 rounded shadow-md w-full max-w-md">
-            <h1 class="text-2xl font-semibold mb-6 text-center">Register</h1>
+            <h1 class="text-2xl font-semibold mb-6 text-center">Inscription</h1>
             {% for flash_error in app.flashes('verify_email_error') %}
                 <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
             {% endfor %}

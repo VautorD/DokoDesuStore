@@ -1,4 +1,37 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'space-y-4 p-6 bg-white'}}) }}
+    <div class="mb-4">
+        {{ form_label(form.nom, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.nom, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm'}}) }}
+        {{ form_errors(form.nom) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.prix, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.prix, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm'}}) }}
+        {{ form_errors(form.prix) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.marque, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.marque, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm'}}) }}
+        {{ form_errors(form.marque) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.img, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.img, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm'}}) }}
+        {{ form_errors(form.img) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.categorie_p, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        {{ form_widget(form.categorie_p, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm'}}) }}
+        {{ form_errors(form.categorie_p) }}
+    </div>
+    <div>
+        <button type="submit" class="inline-flex items-center px-4 py-2 rounded bg-secondary text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">
+            {{ button_label|default('Enregistrer') }} 
+        </button>
+    </div>
 {{ form_end(form) }}

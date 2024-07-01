@@ -8,18 +8,25 @@ use App\Repository\BoutiqueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategorieBRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/boutique')]
 class BoutiqueController extends AbstractController
 {
+    private $security;
+    private $slugger;
 
-    public function __construct( private Security $security, private SluggerInterface $slugger){}
+    public function __construct(Security $security, SluggerInterface $slugger)
+    {
+        $this->security = $security;
+        $this->slugger = $slugger;
+    }
 
     #[Route('/', name: 'app_boutique_index', methods: ['GET'])]
     public function index(BoutiqueRepository $boutiqueRepository): Response
@@ -41,7 +48,27 @@ class BoutiqueController extends AbstractController
             $user = $this->security->getUser();
             $boutique->setUser($user);
 
-            // Générer autoamtiquement le slug pour la bdd
+            // Gestion du fichier image
+            $imgFile = $form->get('img')->getData();
+
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imgFile->guessExtension();
+
+                try {
+                    $imgFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // handle exception if something happens during file upload
+                }
+
+                $boutique->setImg($newFilename);
+            }
+
+            // Générer automatiquement le slug pour la bdd
             $slug = $this->slugger->slug($boutique->getNom())->lower();
             $slug = $this->makeSlugUnique($slug, $em);
 
@@ -62,7 +89,7 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
-    //Pour eviter les slug en double dans la bdd on rajoute un nombre
+    // Pour éviter les slugs en double dans la bdd on rajoute un nombre
     private function makeSlugUnique(string $slug, EntityManagerInterface $em): string
     {
         $originalSlug = $slug;
@@ -75,8 +102,7 @@ class BoutiqueController extends AbstractController
 
         return $slug;
     }
-    
-    //Afficher les boutiques avec possibilité de filtrer par catégorie
+
     #[Route('/all', name: 'app_boutique_all', methods: ['GET', 'POST'])]
     public function allBoutique(BoutiqueRepository $boutiqueRepository, CategorieBRepository $categorieBRepository, Request $request): Response
     {
@@ -102,20 +128,17 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
-    //Afficher les boutiques par leur slug
     #[Route('/{slug}', name: 'app_boutique_template', methods: ['GET'])]
     public function templateBoutique(Request $request, BoutiqueRepository $boutiqueRepository): Response
     {
-
         $slug = $request->attributes->get('slug');
         $boutique = $boutiqueRepository->findOneBy(['slug' => $slug]);
-        
+
         return $this->render('boutique/templateBoutique.html.twig', [
             'boutique' => $boutique,
         ]);
     }
 
-    //Pour qu un professionnel modifie sa boutique
     #[Route('/professionnel/{id}', name: 'app_professionel_boutique', methods: ['GET'])]
     public function showMyBoutique(BoutiqueRepository $boutiqueRepository): Response
     {
@@ -128,7 +151,7 @@ class BoutiqueController extends AbstractController
         // Récupérer la boutique associée au user connecté
         $boutique = $boutiqueRepository->findOneBy(['user' => $user]);
 
-        // Vérifier s il a une boutique
+        // Vérifier s'il a une boutique
         if (!$boutique) {
             throw new AccessDeniedException('Vous n\'avez pas de boutique associée à votre compte.');
         }
@@ -138,7 +161,6 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
-    //Modifier
     #[Route('/{id}/edit', name: 'app_boutique_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Boutique $boutique, EntityManagerInterface $entityManager): Response
     {
@@ -146,6 +168,26 @@ class BoutiqueController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gestion du fichier image
+            $imgFile = $form->get('img')->getData();
+
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imgFile->guessExtension();
+
+                try {
+                    $imgFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // handle exception if something happens during file upload
+                }
+
+                $boutique->setImg($newFilename);
+            }
+
             $entityManager->flush();
 
             if ($this->isGranted('ROLE_SUPER_ADMIN')) {
@@ -157,7 +199,7 @@ class BoutiqueController extends AbstractController
 
         return $this->render('boutique/edit.html.twig', [
             'boutique' => $boutique,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

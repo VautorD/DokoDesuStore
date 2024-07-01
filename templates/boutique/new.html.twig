@@ -1,15 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Votre boutique{% endblock %}
+{% block title %}Votre boutique
+{% endblock %}
 
 {% block body %}
-    <h1>Enregistré votre boutique</h1>
 
-    {{ include('boutique/_form.html.twig') }}
+	<div class="container mx-auto px-4 py-8">
+		<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+         <div class="px-4 py-5 sm:px-6">
+			<h1 class="text-2xl font-semibold text-gray-800">Ajouter une nouvelle boutique
+            </div>
+			</h1>
 
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <a href="{{ path('app_boutique_index') }}">Retourner à la liste</a>
-    {% elseif is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_profile_index') }}">retourner à mon compte</a>
-    {% endif %}
+			{{ include('boutique/_form.html.twig') }}
+
+			{% if is_granted('ROLE_SUPER_ADMIN') %}
+				<a href="{{ path('app_boutique_index') }}" class="inline-block text-sm px-4 py-2 ml-6 mb-8 leading-none border rounded-lg text-primary border-primary hover:border-transparent hover:text-white hover:bg-primary mt-4 lg:mt-0">Retourner à la liste</a>
+			{% elseif is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('app_profile_index') }}" class="inline-block text-sm px-4 py-2 leading-none border rounded-lg text-primary border-primary hover:border-transparent hover:text-white hover:bg-primary mt-4 lg:mt-0">Retourner à mon compte</a>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}

@@ -3,24 +3,29 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<div class="relative h-[960px] bg-cover bg-center" style="background-image: url('/build/img/connexion.jpeg');">
+<div class="relative h-[960px] bg-cover bg-center" style="background-image: url('/img/connexion.jpeg');">
     <div class="flex items-center justify-center h-full">
         <form method="post" class="bg-white p-8 rounded shadow-md w-full max-w-md">
-            <h1 class="text-2xl font-semibold mb-6 text-center">Register</h1>
+            <h1 class="text-2xl font-semibold mb-6 text-center">Inscription</h1>
             {% for flash_error in app.flashes('verify_email_error') %}
                 <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
             {% endfor %}
 
             {{ form_start(registrationForm) }}
-            <div class="mb-4">
-                {{ form_label(registrationForm.boutique, 'Avez-vous une boutique ?', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
-                {{ form_widget(registrationForm.boutique, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+            <div class="mb-4 flex items-center">
+                {{ form_label(registrationForm.boutique, 'Je possède une boutique et souhaite l\'enregistrer :', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mr-2'}}) }}
+                 {{ form_widget(registrationForm.boutique, {'attr': {'class': 'form-check-input '}}) }}
                 {{ form_errors(registrationForm.boutique) }}
             </div>
             <div class="mb-4">
                 {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
                 {{ form_errors(registrationForm.email) }}
+            </div>
+            <div class="mb-6">
+                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
+                {{ form_errors(registrationForm.plainPassword) }}
             </div>
             <div class="mb-4">
                 {{ form_label(registrationForm.nom, 'Nom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
@@ -42,23 +47,16 @@
                 {{ form_widget(registrationForm.abonnement, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
                 {{ form_errors(registrationForm.abonnement) }}
             </div>
-            <div class="mb-6">
-                {{ form_row(registrationForm.RGPDConsent, {
-                    'label_attr': {'class': 'block text-sm font-medium text-gray-700'},
-                    'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}
-                }) }}
+            <div class="mb-6 flex items-center">
+               
+                {{ form_label(registrationForm.RGPDConsent, 'En m\'inscrivant sur ce site j\'accepte les conditions de traitement des données.', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mr-2'}}) }} 
+                {{ form_widget(registrationForm.RGPDConsent, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_errors(registrationForm.RGPDConsent) }}
             </div>
-
-            <div class="mb-6">
-                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
-                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control w-full mt-1 p-2 border rounded'}}) }}
-                {{ form_errors(registrationForm.plainPassword) }}
-            </div>
-
             <button type="submit" class="btn btn-lg btn-primary w-full py-2 px-4 mb-6 rounded bg-secondary text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">
-                Register
+                S'inscrire
             </button>
-            <p class="centered-text">Vous avez déjà un compte ? <a href="{{ path('app_login')}}">Me connecter</a></p>
+            <p class="centered-text">Vous avez déjà un compte ? <a href="{{ path('app_login')}}" class="text-primary">Me connecter</a></p>
             {{ form_end(registrationForm) }}
         </form>
     </div>

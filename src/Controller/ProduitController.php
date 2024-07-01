@@ -13,11 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
 {
-    public function __construct(private SluggerInterface $slugger){}
+    public function __construct(private SluggerInterface $slugger)
+    {
+    }
 
     #[Route('/', name: 'app_produit_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository): Response
@@ -28,7 +32,7 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, BoutiqueRepository $boutiqueRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, BoutiqueRepository $boutiqueRepository, SluggerInterface $slugger): Response
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
@@ -49,20 +53,42 @@ class ProduitController extends AbstractController
             // Assigner la boutique au produit
             $produit->setBoutique($boutique);
 
-            $slug = $this->slugger->slug($produit->getNom())->lower();
+            // Gestion du fichier image
+            $imgFile = $form->get('img')->getData();
+
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+
+                try {
+                    $imgFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // handle exception if something happens during file upload
+                }
+
+                $produit->setImg($newFilename);
+            }
+
+            // Génération du slug
+            $slug = $slugger->slug($produit->getNom())->lower();
             $slug = $this->makeSlugUnique($slug, $entityManager);
 
             $produit->setSlug($slug);
 
+            // Sauvegarde en base de données
             $entityManager->persist($produit);
             $entityManager->flush();
 
             if ($this->isGranted('ROLE_SUPER_ADMIN')) {
-                    return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-                } elseif ($this->isGranted('ROLE_ADMIN')) {
-                    return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
-                }
+                return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+            } elseif ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
             }
+        }
 
         return $this->render('produit/new.html.twig', [
             'produit' => $produit,
@@ -118,7 +144,7 @@ class ProduitController extends AbstractController
             if ($categorie->getParent() === null) {
                 // C'est une catégorie mère, obtenir tous les produits dans cette catégorie et ses enfants
                 $childCategories = $categoriePRepository->findBy(['parent' => $categorieId]);
-                $childCategoryIds = array_map(fn($cat) => $cat->getId(), $childCategories);
+                $childCategoryIds = array_map(fn ($cat) => $cat->getId(), $childCategories);
                 $produits = $produitRepository->findBy(['categorieP' => array_merge([$categorieId], $childCategoryIds)]);
             } else {
                 // C'est une catégorie enfant, obtenir les produits dans cette catégorie uniquement
@@ -137,7 +163,7 @@ class ProduitController extends AbstractController
     #[Route('/{slug}', name: 'app_produit_details', methods: ['GET'])]
     public function details(Request $request, ProduitRepository $produitRepository): Response
     {
-        
+
         $slug = $request->attributes->get('slug');
         $produit = $produitRepository->findOneBy(['slug' => $slug]);
         $boutique = $produit->getBoutique();
@@ -181,12 +207,11 @@ class ProduitController extends AbstractController
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $produit->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($produit);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
     }
-
 }

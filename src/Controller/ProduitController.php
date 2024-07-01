@@ -149,13 +149,7 @@ class ProduitController extends AbstractController
             'categorie_ps' => $categoriePRepository->findAll(),
         ]);
     }
-
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> backend
+    
     #[Route('/{slug}', name: 'app_produit_details', methods: ['GET'])]
     public function details(Request $request, ProduitRepository $produitRepository): Response
     {

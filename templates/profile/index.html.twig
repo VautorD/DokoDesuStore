@@ -1,5 +1,3 @@
-{# templates/profile/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Mon Compte{% endblock %}
@@ -11,29 +9,33 @@
             <aside class="w-72 bg-gray-100 p-4">
                 {% include "_partieMoncompte/_moncomptebarre.html.twig" %}
             </aside>
-            <main class="container my-3">
-                <section class="row justify-content-center">
-                    <h1 class="h3 mb-3 font-weight-normal center">Mon Compte</h1>
+            <main class="p-5 w-full ">
+                <section class="flex flex-col">
+                    <h1 class="text-h6 mb-10 font-semibold text-primary-Text text-center">Mon Compte</h1>
+                    <p class="text-primary-Text font-medium mb-10">Vous pouvez modifier vos informations personnelles ici.</p>
                     <form class="col-sm-12 col-md-8 col-lg-6">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" value="{{ user.email }}" disabled>
+                        <div class="mb-4">
+                            <label for="email" class="form-label text-primary-Text font-regular">Email :</label>
+                            <input type="email" class="form-control bg-white text-primary-Text font-regular" id="email" value="{{ user.email }}" disabled>
+                        </div>
+                        <div class="mb-4">
+                            <label for="nom" class="form-label text-primary-Text font-regular">Nom :</label>
+                            <input type="text" class="form-control text-primary-Text font-regular border border-strock rounded px-2" id="nom" value="{{ user.nom }}">
+                        </div>
+                        <div class="mb-4">
+                            <label for="prenom" class="form-label text-primary-Text font-regular">Prénom :</label>
+                            <input type="text" class="form-control text-primary-Text font-regular border border-strock rounded px-2" id="prenom" value="{{ user.prenom }}">
+                        </div>
+                        <div class="mb-4">
+                            <label for="tel" class="form-label text-primary-Text font-regular">Téléphone :</label>
+                            <input type="text" class="form-control text-primary-Text font-regular border border-strock rounded px-2" id="tel" value="{{ user.tel }}">
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label text-primary-Text font-regular">Mot de passe :</label>
+                            <input type="password" class="form-control bg-white text-primary-Text font-regular" id="password" value="**********" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="nom" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="nom" value="{{ user.nom }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="prenom" class="form-label">Prénom</label>
-                            <input type="text" class="form-control" id="prenom" value="{{ user.prenom }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="tel" class="form-label">Téléphone</label>
-                            <input type="text" class="form-control" id="tel" value="{{ user.tel }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" id="password" value="**********" disabled>
+                            <button type="submit" class="border hover:border-secondary text-body-medium font-regular hover:text-secondary p-2 rounded-lg mr-2">Modifier</button>
                         </div>
                     </form>
                 </section>

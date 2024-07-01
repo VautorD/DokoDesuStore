@@ -15,16 +15,16 @@
                     {% for categorie_m in categorie_ps %}
                         {% if categorie_m.parent is null %}
                             <details class="p-2">
-                                <summary class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white cursor-pointer border border-strock rounded">{{ categorie_m.nom }}</summary>
+                                <summary class="block px-4 py-2 text-primary-Text hover:bg-secondary hover:text-white cursor-pointer border border-strock rounded">{{ categorie_m.nom }}</summary>
                                 {% set has_children = false %}
                                 <div class="w-full border border-strock">
-                                    <a href="{{ path('app_produit_all', {categorie: categorie_m.id}) }}" class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white ml-4">Tout</a>
+                                    <a href="{{ path('app_produit_all', {categorie: categorie_m.id}) }}" class="block px-4 py-2 text-primary-Text hover:bg-secondary hover:text-white ml-4">Tout</a>
                                     {% for categorie_e in categorie_ps %}
                                         {% if categorie_e.parent and categorie_e.parent.id == categorie_m.id %}
                                             {% if not has_children %}
                                                 {% set has_children = true %}
                                             {% endif %}
-                                            <a href="{{ path('app_produit_all', {categorie: categorie_e.id}) }}" class="block px-4 py-2 text-gray-800 hover:bg-secondary hover:text-white ml-4">{{ categorie_e.nom }}</a>
+                                            <a href="{{ path('app_produit_all', {categorie: categorie_e.id}) }}" class="block px-4 py-2 text-primary-Text hover:bg-secondary hover:text-white ml-4">{{ categorie_e.nom }}</a>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
@@ -35,118 +35,31 @@
             </div>
 
         </div>
-
         <div class="col-span-4 p-5">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <div class="flex justify-center items-center">
-                            <img src="{{ asset('build/img/livai.png') }}" alt="Figurine Livaï" class="w-auto h-40 object-cover rounded-t-lg">
-                        </div>
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Figurine Livaï </h3>
-                            <p class="text-secondary font-bold">129.90 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <div class="flex justify-center items-center">
-                            <img src="{{ asset('build/img/livai.png') }}" alt="Figurine Livaï" class="w-auto h-40 object-cover rounded-t-lg">
-                        </div>
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Figurine Livaï </h3>
-                            <p class="text-secondary font-bold">129.90 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <div class="flex justify-center items-center">
-                            <img src="{{ asset('build/img/livai.png') }}" alt="Figurine Livaï" class="w-auto h-40 object-cover rounded-t-lg">
-                        </div>
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Figurine Livaï </h3>
-                            <p class="text-secondary font-bold">129.90 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <div class="flex justify-center items-center">
-                            <img src="{{ asset('build/img/livai.png') }}" alt="Figurine Livaï" class="w-auto h-40 object-cover rounded-t-lg">
-                        </div>
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Figurine Livaï </h3>
-                            <p class="text-secondary font-bold">129.90 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-custom">
-                        <img src="{{ asset('build/img/limonade_japonaise_fraise_200ml.png') }}" alt="Limonade Japonaise À La Fraise 200ml" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">Limonade Japonaise À La Fraise 200ml </h3>
-                            <p class="text-secondary font-bold">2.99 €</p>
-                        </div>
-                    </div>
-                
+            <form method="GET" action="{{ path('app_produit_all') }}">
+                <div class="relative mb-4 flex items-center">
+                    <label for="sort" class="block text-primary-Text text-sm font-bold mb-2 pr-3">Trier par :</label>
+                    <select id="sort" name="sort" class="block px-4 py-2 text-primary-Text cursor-pointer border border-strock rounded appearance-none after:border-strock" onchange="this.form.submit()">
+                        <option value="" {% if app.request.get('sort') is empty %}selected{% endif %}>Aucun tri</option>
+                        <option value="price_asc" {% if app.request.get('sort') == 'price_asc' %}selected{% endif %}>Prix croissant</option>
+                        <option value="price_desc" {% if app.request.get('sort') == 'price_desc' %}selected{% endif %}>Prix décroissant</option>
+                        <option value="alpha_asc" {% if app.request.get('sort') == 'alpha_asc' %}selected{% endif %}>Ordre alphabétique (A-Z)</option>
+                        <option value="alpha_desc" {% if app.request.get('sort') == 'alpha_desc' %}selected{% endif %}>Ordre alphabétique (Z-A)</option>
+                    </select>
+                </div>
+            </form>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">                
                 {% for produit in produits %}
                     <div class="bg-white p-4 rounded-lg shadow-custom">
-                    <a href="{{ path('app_produit_details', { 'slug': produit.slug }) }}">
-                        <img src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}" class="w-full h-40 object-cover rounded-t-lg">
-                        <div class="mt-2">
-                            <h3 class="text-lg font-semibold">{{ produit.nom }} </h3>
-                            <p class="text-secondary font-bold">{{ produit.prix }} €</p>
-                        </div>
-                    </a>
+                        <a href="{{ path('app_produit_details', { 'slug': produit.slug }) }}">
+                            <div class='flex justify-center'>
+                                <img src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}" class="h-40 object-cover rounded-t-lg">
+                            </div>
+                            <div class="mt-2">
+                                <h3 class="text-lg font-semibold">{{ produit.nom }} </h3>
+                                <p class="text-secondary font-bold">{{ produit.prix }} €</p>
+                            </div>
+                        </a>
                     </div>
                 {% endfor %}
             </div>

@@ -111,6 +111,7 @@ class ProduitController extends AbstractController
     public function all(ProduitRepository $produitRepository, CategoriePRepository $categoriePRepository, Request $request): Response
     {
         $categorieId = $request->query->get('categorie');
+        $sort = $request->query->get('sort', 'price_asc');
         $produits = [];
 
         if ($categorieId) {
@@ -128,12 +129,27 @@ class ProduitController extends AbstractController
             $produits = $produitRepository->findAll();
         }
 
+        switch ($sort) {
+            case 'price_asc':
+                usort($produits, fn($a, $b) => $a->getPrix() <=> $b->getPrix());
+                break;
+            case 'price_desc':
+                usort($produits, fn($a, $b) => $b->getPrix() <=> $a->getPrix());
+                break;
+            case 'alpha_asc':
+                usort($produits, fn($a, $b) => strcmp($a->getNom(), $b->getNom()));
+                break;
+            case 'alpha_desc':
+                usort($produits, fn($a, $b) => strcmp($b->getNom(), $a->getNom()));
+                break;
+        }
+
         return $this->render('produit/all.html.twig', [
             'produits' => $produits,
             'categorie_ps' => $categoriePRepository->findAll(),
         ]);
     }
-
+    
     #[Route('/{slug}', name: 'app_produit_details', methods: ['GET'])]
     public function details(Request $request, ProduitRepository $produitRepository): Response
     {

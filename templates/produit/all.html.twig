@@ -40,6 +40,7 @@
                 <div class="relative mb-4 flex items-center">
                     <label for="sort" class="block text-primary-Text text-sm font-bold mb-2 pr-3">Trier par :</label>
                     <select id="sort" name="sort" class="block px-4 py-2 text-primary-Text cursor-pointer border border-strock rounded appearance-none after:border-strock" onchange="this.form.submit()">
+                        <option value="" {% if app.request.get('sort') is empty %}selected{% endif %}>Aucun tri</option>
                         <option value="price_asc" {% if app.request.get('sort') == 'price_asc' %}selected{% endif %}>Prix croissant</option>
                         <option value="price_desc" {% if app.request.get('sort') == 'price_desc' %}selected{% endif %}>Prix décroissant</option>
                         <option value="alpha_asc" {% if app.request.get('sort') == 'alpha_asc' %}selected{% endif %}>Ordre alphabétique (A-Z)</option>

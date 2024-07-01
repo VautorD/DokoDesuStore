@@ -11,3 +11,7 @@ Home:
 search:
     path: /search
     controller: App\Controller\SearchController::search
+
+app_commande_success:
+    path: '/commande/confirmation'
+    controller: App\Controller\CommandeController::success

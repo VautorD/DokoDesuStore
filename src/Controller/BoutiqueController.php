@@ -29,6 +29,24 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
+    //Afficher les boutiques avec possibilité de filtrer par catégorie
+    #[Route('/all', name: 'app_boutique_all', methods: ['GET', 'POST'])]
+    public function allBoutique(BoutiqueRepository $boutiqueRepository, CategorieBRepository $categorieBRepository, Request $request): Response
+    {
+        $categorieId = $request->query->get('categorie');
+
+        if ($categorieId) {
+            $boutiques = $boutiqueRepository->findBy(['categorieB' => $categorieId]);
+        } else {
+            $boutiques = $boutiqueRepository->findAll();
+        }
+
+        return $this->render('boutique/allBoutique.html.twig', [
+            'boutiques' => $boutiques,
+            'categorie_bs' => $categorieBRepository->findAll()
+        ]);
+    }
+
     #[Route('/boutique/new', name: 'app_boutique_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
@@ -62,59 +80,6 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
-    //Pour eviter les slug en double dans la bdd on rajoute un nombre
-    private function makeSlugUnique(string $slug, EntityManagerInterface $em): string
-    {
-        $originalSlug = $slug;
-        $i = 1;
-
-        while ($em->getRepository(Boutique::class)->findOneBy(['slug' => $slug])) {
-            $slug = $originalSlug . '-' . $i;
-            $i++;
-        }
-
-        return $slug;
-    }
-    
-    //Afficher les boutiques avec possibilité de filtrer par catégorie
-    #[Route('/all', name: 'app_boutique_all', methods: ['GET', 'POST'])]
-    public function allBoutique(BoutiqueRepository $boutiqueRepository, CategorieBRepository $categorieBRepository, Request $request): Response
-    {
-        $categorieId = $request->query->get('categorie');
-
-        if ($categorieId) {
-            $boutiques = $boutiqueRepository->findBy(['categorieB' => $categorieId]);
-        } else {
-            $boutiques = $boutiqueRepository->findAll();
-        }
-
-        return $this->render('boutique/allBoutique.html.twig', [
-            'boutiques' => $boutiques,
-            'categorie_bs' => $categorieBRepository->findAll()
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_boutique_show', methods: ['GET'])]
-    public function show(Boutique $boutique): Response
-    {
-        return $this->render('boutique/show.html.twig', [
-            'boutique' => $boutique,
-        ]);
-    }
-
-    //Afficher les boutiques par leur slug
-    #[Route('/{slug}', name: 'app_boutique_template', methods: ['GET'])]
-    public function templateBoutique(Request $request, BoutiqueRepository $boutiqueRepository): Response
-    {
-
-        $slug = $request->attributes->get('slug');
-        $boutique = $boutiqueRepository->findOneBy(['slug' => $slug]);
-        
-        return $this->render('boutique/templateBoutique.html.twig', [
-            'boutique' => $boutique,
-        ]);
-    }
-
     //Pour qu un professionnel modifie sa boutique
     #[Route('/professionnel/{id}', name: 'app_professionel_boutique', methods: ['GET'])]
     public function showMyBoutique(BoutiqueRepository $boutiqueRepository): Response
@@ -133,6 +98,14 @@ class BoutiqueController extends AbstractController
             throw new AccessDeniedException('Vous n\'avez pas de boutique associée à votre compte.');
         }
 
+        return $this->render('boutique/show.html.twig', [
+            'boutique' => $boutique,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_boutique_show', methods: ['GET'])]
+    public function show(Boutique $boutique): Response
+    {
         return $this->render('boutique/show.html.twig', [
             'boutique' => $boutique,
         ]);
@@ -170,5 +143,32 @@ class BoutiqueController extends AbstractController
         }
 
         return $this->redirectToRoute('app_boutique_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    //Afficher les boutiques par leur slug
+    #[Route('/Boutique/{slug}', name: 'app_boutique_template', methods: ['GET'])]
+    public function templateBoutique(Request $request, BoutiqueRepository $boutiqueRepository): Response
+    {
+
+        $slug = $request->attributes->get('slug');
+        $boutique = $boutiqueRepository->findOneBy(['slug' => $slug]);
+        
+        return $this->render('boutique/templateBoutique.html.twig', [
+            'boutique' => $boutique,
+        ]);
+    }
+
+    //Pour eviter les slug en double dans la bdd on rajoute un nombre
+    private function makeSlugUnique(string $slug, EntityManagerInterface $em): string
+    {
+        $originalSlug = $slug;
+        $i = 1;
+
+        while ($em->getRepository(Boutique::class)->findOneBy(['slug' => $slug])) {
+            $slug = $originalSlug . '-' . $i;
+            $i++;
+        }
+
+        return $slug;
     }
 }

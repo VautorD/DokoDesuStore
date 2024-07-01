@@ -31,7 +31,7 @@
                                         <p class="text-body-large font-semibold">{{ item.produit.nom }}</p>
                                     </div>
                                 </td>
-                                <td class="py-6 px-15 text-center">{{ item.produit.prix }} €</td>
+                                <td class="py-6 px-15 text-center">{{ item.produit.prix }}€</td>
                                 <td class="py-6 px-15 text-center">
                                     <div class="flex justify-center items-center gap-2">
                                         <a href="{{ path('app_panier_remove', { 'id': item.produit.id }) }}" class="btn-action">-</a>
@@ -39,7 +39,7 @@
                                         <a href="{{ path('app_panier_add', { 'id': item.produit.id }) }}" class="btn-action">+</a>
                                     </div>
                                 </td>
-                                <td class="py-6 px-15 text-center">{{ item.produit.prix * item.quantite }} €</td>
+                                <td class="py-6 px-15 text-center">{{ item.produit.prix * item.quantite }}€</td>
                                 <td class="py-6 px-15 text-center">
                                     <a href="{{ path('app_panier_delete', { 'id': item.produit.id }) }}" class="text-secondary underline"><i class="fas fa-trash-alt"></i> Supprimer</a>
                                 </td>

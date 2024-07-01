@@ -96,11 +96,11 @@
         <nav class="bg-white font-medium shadow-custom">
             <ul class="flex justify-around space-x-6 p-4">
                 <li><a href="{{ path('Home') }}" class="text-secondary hover:text-secondary active:text-secondary">Home</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Vêtements</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Cosplay</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Librairies</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Produits dérivés</a></li>
-                <li><a href="#" class="hover:text-secondary active:text-secondary">Alimentaire</a></li>
+                <li><a href="{{ path('app_categorieP_list', {slug: "vetements"}) }}" class="hover:text-secondary active:text-secondary">Vêtements</a></li>
+                <li><a href="{{ path('app_categorieP_list', {slug: "cosplay"}) }}" class="hover:text-secondary active:text-secondary">Cosplay</a></li>
+                <li><a href="{{ path('app_categorieP_list', {slug: "libraireies"}) }}" class="hover:text-secondary active:text-secondary">Librairies</a></li>
+                <li><a href="{{ path('app_categorieP_list', {slug: "produits-derives"}) }}" class="hover:text-secondary active:text-secondary">Produits dérivés</a></li>
+                <li><a href="{{ path('app_categorieP_list', {slug: "alimentaire"}) }}" class="hover:text-secondary active:text-secondary">Alimentaire</a></li>
             </ul>
         </nav>
     </header>

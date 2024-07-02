@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Boutique;
 use App\Entity\Commande;
 use App\Entity\LigneCommande;
 use App\Repository\ProduitRepository;
@@ -24,6 +25,24 @@ class CommandeController extends AbstractController
         $this->security = $security;
         $this->entityManager = $entityManager;
         $this->boutiqueService = $boutiqueService;
+    }
+
+    #[Route('/boutique/commandes/{slug}', name: 'app_boutique_commandes', methods: ['GET'])]
+    public function commandesBoutique(string $slug): Response
+    {
+        $boutique = $this->entityManager->getRepository(Boutique::class)->findOneBy(['slug' => $slug]);
+
+        if (!$boutique) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $commandeRepository = $this->entityManager->getRepository(Commande::class);
+        $commandes = $commandeRepository->findBy(['boutique' => $boutique], ['date' => 'DESC']);
+
+        return $this->render('boutique/commandes.html.twig', [
+            'boutique' => $boutique,
+            'commandes' => $commandes,
+        ]);
     }
 
     #[Route('/valider', name: 'app_commande_valider', methods: ['GET'])]
@@ -71,35 +90,48 @@ class CommandeController extends AbstractController
     
             $this->entityManager->commit(); // Confirmation de la transaction
     
-            return $this->redirectToRoute('Home');
+            return $this->redirectToRoute('app_commande_confirmation', ['id' => $commande->getId()]);
         } 
 
-        #[Route('/commande/confirmation', name: 'app_commande_confirmation')]
-        public function success(EntityManagerInterface $entityManager): Response
-    {
-        $user = $this->getUser();
+        #[Route('/commande/confirmation/{id}', name: 'app_commande_confirmation', methods: ['GET'])]
+        public function success(EntityManagerInterface $entityManager, int $id): Response
+        {
+            $user = $this->getUser();
 
-        // Récupérer le repository de Commande via l'EntityManager
-        $commandeRepository = $entityManager->getRepository(Commande::class);
-        $commande = $commandeRepository->findOneBy(['user' => $user], ['date' => 'DESC']);
+            // Récupérer la commande par son id et l'utilisateur actuel
+            $commandeRepository = $entityManager->getRepository(Commande::class);
+            $commande = $commandeRepository->findOneBy(['id' => $id, 'user' => $user]);
 
-        // Vérifier si une commande a été trouvée
-        if (!$commande) {
-            throw $this->createNotFoundException('Aucune commande trouvée pour cet utilisateur.');
+            $total = 0.0;
+            foreach ($commande->getLigneCommande() as $ligneCommande) {
+                $total += $ligneCommande->getQuantite() * $ligneCommande->getProduit()->getPrix();
+            }
+
+            return $this->render('commande/confirmation.html.twig', [
+                'commande' => $commande,
+                'total' => $total,
+            ]);
         }
 
-        // Calcul du total de la commande
-        $total = 0.0;
-        foreach ($commande->getLigneCommande() as $ligneCommande) {
-            $total += $ligneCommande->getQuantite() * $ligneCommande->getProduit()->getPrix();
+
+        #[Route('/historique', name: 'app_commande_historique', methods: ['GET'])]
+        public function historique(): Response
+        {
+            $user = $this->getUser();
+
+            if (!$user) {
+                return $this->redirectToRoute('app_login');
+            }
+
+            $commandeRepository = $this->entityManager->getRepository(Commande::class);
+            $commandes = $commandeRepository->findBy(['user' => $user], ['date' => 'DESC']);
+
+            return $this->render('commande/historique.html.twig', [
+                'commandes' => $commandes,
+            ]);
         }
 
-        // Envoi des données au template
-        return $this->render('commande/confirmation.html.twig', [
-            'commande' => $commande,
-            'total' => $total,
-        ]);
-    }
+    
     
 
 }

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commandes reçues{% endblock %}
+
+{% block body %}
+    <h1>Commandes reçues pour {{ boutique.nom }}</h1>
+
+    {% if commandes is empty %}
+        <p>Aucune commande trouvée.</p>
+    {% else %}
+        <ul>
+            {% for commande in commandes %}
+                <li>
+                    <strong>Numéro de commande :</strong> {{ commande.id }}<br>
+                    <strong>Date de commande :</strong> {{ commande.date|date('d/m/Y H:i') }}<br>
+                    <strong>Client :</strong> {{ commande.user.nom }} {{ commande.user.prenom }}<br>
+                    <strong>Mail Client :</strong> {{ commande.user.email }}<br>
+                    <strong>Total :</strong> 
+                    {% set total = 0 %}
+                    {% for ligneCommande in commande.ligneCommande %}
+                        {% set total = total + (ligneCommande.quantite * ligneCommande.produit.prix) %}
+                    {% endfor %}
+                    {{ total }} €<br>
+                    <a href="{{ path('app_commande_confirmation', {'id': commande.id}) }}">Détails de la commande</a>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
+{% endblock %}

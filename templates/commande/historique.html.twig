@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des commandes{% endblock %}
+
+{% block body %}
+    <h1>Historique des commandes</h1>
+
+    {% if commandes is empty %}
+        <p>Aucune commande trouvée.</p>
+    {% else %}
+        <ul>
+            {% for commande in commandes %}
+                <li>
+                    <strong>Numéro de commande :</strong> {{ commande.getId() }}<br>
+                    <strong>Date de commande :</strong> {{ commande.getDate()|date('d/m/Y H:i') }}<br>
+                    <strong>Total :</strong> 
+                    {% set total = 0 %}
+                    {% for ligneCommande in commande.getLigneCommande() %}
+                        {% set total = total + (ligneCommande.getQuantite() * ligneCommande.getProduit().getPrix()) %}
+                    {% endfor %}
+                    {{ total }} €<br>
+                    <strong>Boutique :</strong>
+                    <div>
+                        <img src="{{ asset(commande.getBoutique().getImg()) }}" alt="{{ commande.getBoutique().getNom() }}" style="max-width: 100px; max-height: 100px;">
+                        <h3>{{ commande.getBoutique().getNom() }}</h3>
+                        <p>{{ commande.getBoutique().getAdresse() }}</p>
+                        <a href="{{ path('app_boutique_template', {'slug': commande.getBoutique().getSlug()}) }}">Voir la boutique</a>
+                    </div>
+                    <a href="{{ path('app_commande_confirmation', {'id': commande.getId()}) }}">Détails de la commande</a>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
+{% endblock %}

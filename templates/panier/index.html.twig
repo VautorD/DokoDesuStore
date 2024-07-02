@@ -56,12 +56,12 @@
                 {% endfor %}
                 {{ subtotal }} €
                 <a href="{{ path('app_commande_valider') }}" class="border border-secondary flex justify-center gap-2 text-body-medium font-regular text-secondary px-2 py-2 rounded-lg ml-4">
-    <img src="{{ asset('build/icons/euro-card.png') }}" alt="Icone Euro Card">
-    Réserver maintenant
-</a>
+                    <img src="{{ asset('build/icons/euro-card.png') }}" alt="Icone Euro Card">
+                    Réserver maintenant
+                </a>
             </div>
             <div class="flex w-full px-24 mt-4">
-                <a href="{{ path('app_commande_valider') }}" class="text-secondary">Vider le panier</a>
+                <a href="{{ path('app_panier_vider') }}" class="text-secondary">Vider le panier</a>
             </div>
         {% else %}
             <p>Votre panier est vide.</p>

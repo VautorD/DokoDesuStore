@@ -13,5 +13,5 @@ search:
     controller: App\Controller\SearchController::search
 
 app_commande_success:
-    path: '/commande/confirmation'
+    path: '/commande/confirmation/{id}'
     controller: App\Controller\CommandeController::success

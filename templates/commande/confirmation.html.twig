@@ -22,7 +22,7 @@
                 <br>
                 Magasin :
                 <div>
-                    <img src="{{ asset(ligneCommande.getProduit().getBoutique().getImg()) }}" alt="{{ ligneCommande.getProduit().getBoutique().getNom() }}" style="max-width: 100px; max-height: 100px;">
+                    <img src="#" style="max-width: 100px; max-height: 100px;">
                     <h3>{{ ligneCommande.getProduit().getBoutique().getNom() }}</h3>
                     <p>{{ ligneCommande.getProduit().getBoutique().getAdresse() }}</p>
                     <a href="{{ path('app_boutique_template', {'slug': ligneCommande.getProduit().getBoutique().getSlug()})}}">Voir la boutique</a>

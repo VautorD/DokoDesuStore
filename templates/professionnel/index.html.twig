@@ -10,13 +10,13 @@
                 {% include "_partieProfessionnel/_professionnelbarre.html.twig" %}
             </aside>
             <main class="container mx-auto my-6">
-                <section class="bg-white shadow-md rounded p-6">
-                    <h1 class="text-2xl font-semibold mb-4">Ma Boutique</h1>
+                <section class="bg-white shadow-custom rounded p-6">
+                    <h1 class="text-body-large font-semibold mb-4">Ma Boutique</h1>
                     {% if boutique %}
                         <div class="overflow-x-auto">
                             <table class="min-w-full table-auto">
                                 <thead>
-                                    <tr class="bg-gray-200 text-gray-600">
+                                    <tr class="bg-gray-200 text-primary-Text">
                                         <th class="py-2 px-4 text-center">Nom</th>
                                         <th class="py-2 px-4 text-center">Num_siret</th>
                                         <th class="py-2 px-4 text-center">Adresse</th>
@@ -27,7 +27,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-b border-gray-200">
+                                    <tr class="border-b border-strock">
                                         <td class="py-2 px-4">{{ boutique.nom }}</td>
                                         <td class="py-2 px-4 text-center">{{ boutique.numSiret }}</td>
                                         <td class="py-2 px-4">{{ boutique.adresse }}</td>
@@ -46,7 +46,7 @@
                             </table>
                         </div>
                     {% else %}
-                        <p class="text-center text-gray-500">Vous n'avez pas encore de boutique.</p>
+                        <p class="text-center text-primary-Text">Vous n'avez pas encore de boutique.</p>
                     {% endif %}
                 </section>
             </main>

@@ -5,8 +5,8 @@
 {% block body %}
 <div class="relative h-[960px] bg-cover bg-center" style="background-image: url('/img/connexion.jpeg');">
     <div class="flex items-center justify-center h-full">
-        <form method="post" class="bg-white p-8 rounded shadow-md w-full max-w-md">
-            <h1 class="text-2xl font-semibold mb-6 text-center">Connexion</h1>
+        <form method="post" class="bg-white p-8 rounded shadow-custom w-full max-w-md">
+            <h1 class="text-body-large font-semibold mb-6 text-center">Connexion</h1>
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -18,11 +18,11 @@
             {% endif %}
 
             <div class="mb-4">
-                <label for="inputEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                <label for="inputEmail" class="block text-sm font-medium text-primary-Text">Email</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control w-full mt-1 p-2 border rounded" autocomplete="email" required autofocus>
             </div>
             <div class="mb-6">
-                <label for="inputPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                <label for="inputPassword" class="block text-sm font-medium text-primary-Text">Password</label>
                 <input type="password" name="password" id="inputPassword" class="form-control w-full mt-1 p-2 border rounded" autocomplete="current-password" required>
             </div>
 
@@ -30,13 +30,13 @@
 
             <div class="flex items-center mb-6">
                 <input type="checkbox" name="_remember_me" id="rememberMe" class="mr-2">
-                <label for="rememberMe" class="text-sm text-gray-700">Remember me</label>
+                <label for="rememberMe" class="text-sm text-primary-Text">Se souvenir de moi</label>
             </div>
 
             <button class="btn btn-lg btn-primary w-full py-2 px-4 mb-6 rounded bg-secondary text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300" type="submit">
                 Se connecter
             </button>
-            <p class="centered-text">Vous n êtes pas inscrit(e) ? <a href="{{ path('app_register')}}">M inscrire</a></p>
+            <p class="centered-text">Vous n êtes pas inscrit(e) ? <a href="{{ path('app_register')}}" class="text-lien text-secondary hover:underline">M'inscrire</a></p>
         </form>
     </div>
 </div>

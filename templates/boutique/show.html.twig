@@ -1,50 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Boutique{% endblock %}
+{% block title %}Détails de la Boutique{% endblock %}
 
 {% block body %}
-    <h1>Boutique</h1>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h1 class="text-2xl font-semibold text-gray-800">Détails de la Boutique</h1>
+            </div>
+            <div class="border-t border-gray-200">
+                <dl>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Nom</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">{{ boutique.nom }}</dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Numéro SIRET</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">{{ boutique.numSiret }}</dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Adresse</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">{{ boutique.adresse }}</dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Code Postal</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">{{ boutique.cp }}</dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Ville</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">{{ boutique.ville }}</dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Image</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+                            {% if boutique.img %}
+                                <img src="{{ asset('img/' ~ boutique.img) }}" alt="{{ boutique.nom }}" class="h-12 w-12 object-cover rounded-full">
+                            {% else %}
+                                <span class="text-gray-500">Pas d'image</span>
+                            {% endif %}
+                        </dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Numéro de téléphone</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">{{ boutique.tel }}</dd>
+                    </div>
+                </dl>
+            </div>
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <a href="{{ path('app_boutique_index') }}" class="inline-block text-sm px-4 py-2 leading-none border rounded-lg text-primary border-primary hover:border-transparent hover:text-white hover:bg-primary mt-4 lg:mt-0">Retour à la liste</a>
+                {% elseif is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_professionnel') }}" class="inline-block text-sm px-4 py-2 leading-none border rounded-lg text-secondary border-secondary hover:border-transparent hover:text-white hover:bg-secondary mt-4 lg:mt-0">Retour à ma boutique</a>
+                {% endif %}
+                <a href="{{ path('app_boutique_edit', {'id': boutique.id}) }}" class="inline-block ml-2 text-sm px-4 py-2 leading-none border rounded-lg text-secondary border-secondary hover:border-transparent hover:text-white hover:bg-secondary mt-4 lg:mt-0">Modifier</a>
+            </div>
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Nom</th>
-                <td>{{ boutique.nom }}</td>
-            </tr>
-            <tr>
-                <th>Num_siret</th>
-                <td>{{ boutique.numSiret }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ boutique.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Cp</th>
-                <td>{{ boutique.cp }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ boutique.ville }}</td>
-            </tr>
-            <tr>
-                <th>Img</th>
-                <td>{{ boutique.img }}</td>
-            </tr>
-            <tr>
-                <th>Tel</th>
-                <td>{{ boutique.tel }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <a href="{{ path('app_boutique_index') }}">Retour à la liste</a>
-    {% elseif is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_professionnel') }}">retour à ma boutique</a>
-    {% endif %}
-
-    <a href="{{ path('app_boutique_edit', {'id': boutique.id}) }}">edit</a>
-
-    {{ include('boutique/_delete_form.html.twig') }}
+        {{ include('boutique/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

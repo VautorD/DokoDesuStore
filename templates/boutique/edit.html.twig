@@ -1,17 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier ma boutique{% endblock %}
+{% block title %}Modifier ma boutique
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier ma boutique</h1>
+	<div class="container mx-auto px-4 py-8">
+		<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+			<div class="px-4 py-5 sm:px-6">
+				<h1 class="text-2xl font-semibold text-gray-800">Modifier la boutique
+				</h1>
+			</div>
+			{{ include('boutique/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    {{ include('boutique/_form.html.twig', {'button_label': 'Update'}) }}
+			{% if is_granted('ROLE_SUPER_ADMIN') %}
+				<a href="{{ path('app_boutique_index') }}" class="inline-block text-sm ml-4 mb-4 px-4 py-2 leading-none border rounded-lg text-primary border-primary hover:border-transparent hover:text-white hover:bg-primary mt-4 lg:mt-0">Retourner à la liste</a>
+			{% elseif is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('app_professionnel') }}" class="inline-block text-sm ml-4 mb-4 px-4 py-2 leading-none border rounded-lg text-primary border-primary hover:border-transparent hover:text-white hover:bg-primary mt-4 lg:mt-0">Retourner à ma boutique</a>
+			{% endif %}
 
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <a href="{{ path('app_boutique_index') }}">Retourner à la liste</a>
-    {% elseif is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_professionnel') }}">retourner à ma boutique</a>
-    {% endif %}
+		</div>
+	</div>
+	<div class="ml-4 my-4">
 
-    {{ include('boutique/_delete_form.html.twig') }}
+		{{ include('boutique/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

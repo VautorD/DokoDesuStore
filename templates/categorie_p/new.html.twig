@@ -3,9 +3,17 @@
 {% block title %}New CategorieP{% endblock %}
 
 {% block body %}
-    <h1>Create new CategorieP</h1>
+    <div class="container mx-auto px-4 py-8">
+		<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+			<div class="px-4 py-5 sm:px-6">
+				<h1 class="text-2xl font-semibold text-gray-800">Ajouter une nouvelle catégorie de produit
+				</h1>
+			</div>
+
 
     {{ include('categorie_p/_form.html.twig') }}
 
-    <a href="{{ path('app_categorie_p_index') }}">back to list</a>
+    <a href="{{ path('app_categorie_p_index') }}" class="inline-block text-sm px-4 py-2 leading-none border rounded-lg text-primary border-primary hover:border-transparent hover:text-white hover:bg-primary mt-4 lg:mt-0">Retourner à la liste </a>
+    </div>
+	</div>
 {% endblock %}

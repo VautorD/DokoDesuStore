@@ -5,42 +5,21 @@
 {% block body %}
 
     <div class="w-full h-[400px] bg-cover bg-center" style="background-image: url('/img/boutiques.webp');"></div>
-    <div class="container px-4 py-4">
-        <nav class="flex" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="text-gray-700 hover:text-gray-900 inline-flex items-center">
-                        <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 1.993L1 10l9 8.007 9-8.007-9-8.007-9 8.007zm0 2.243L17.385 10 10 16.764 2.615 10 10 4.236z"></path>
-                        </svg>
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <div class="flex items-center">
-                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M9.707 12l4.647-4.646a.5.5 0 0 0-.708-.708l-5 5a.5.5 0 0 0 0 .708l5 5a.5.5 0 0 0 .708-.708L9.707 12z"></path>
-                        </svg>
-                        <a href="#" class="ml-1 text-gray-700 hover:text-gray-900 md:ml-2">Category</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="flex items-center">
-                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M9.707 12l4.647-4.646a.5.5 0 0 0-.708-.708l-5 5a.5.5 0 0 0 0 .708l5 5a.5.5 0 0 0 .708-.708L9.707 12z"></path>
-                        </svg>
-                        <span class="ml-1 text-gray-500 md:ml-2" aria-current="page">Toutes les boutiques</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
-    </div>
-    <div class="flex">
-        <div class="w-full lg:w-1/4 p-4 bg-white shadow-md rounded-lg">
-            <h2 class="text-xl font-semibold mb-4">Filtrer</h2>
+
+    <div class="flex flex-wrap">
+        <div class="w-full lg:w-1/4 p-4 bg-white rounded-lg mt-8 pl-12">
+            <div class="flex items-center mb-4">
+                <svg class="w-6 h-6 text-black-800 dark:text-whit mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
+                </svg>
+                <h2 class="text-xl font-semibold mb-4">Filtrer</h2>
+            </div>
             <div class="relative mb-4">
-                <button class="w-full text-gray-700 py-2 px-4 rounded focus:outline-none focus:shadow-outline dropdown-button" type="button">
+                <button class="w-full text-gray-700 py-2 px-4 rounded border border-gray-200 focus:outline-none focus:shadow-outline flex items-center justify-between dropdown-button" type="button">
                     Catégories
+                    <svg class="w-4 h-4 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
                 </button>
                 <div class="hidden absolute w-full mt-1 rounded bg-white shadow-lg dropdown-menu">
                     {% for categorie_b in categorie_bs %}
@@ -50,31 +29,30 @@
             </div>
         </div>
 
-        
-        <div class="w-full lg:w-3/4 p-4">
-            <h2 class="text-2xl font-semibold mb-4">Toutes les boutiques</h2>
+        <div class="w-full lg:w-3/4 p-4 mt-8 pr-12">
+            <h2 class="text-3xl text-center font-bold mt-4 mb-16">Toutes les boutiques</h2>
             {% for boutique in boutiques %}
-                <div class="bg-white shadow-md rounded-lg p-4 mb-4 flex">
-                    <img src="{{ asset('img/' ~ boutique.img) }}" alt="Image de {{ boutique.nom }}" class="w-[271px] h-[203px] object-cover rounded mr-4">
+                <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4 flex flex-col md:flex-row">
+                    <img src="{{ asset('img/' ~ boutique.img) }}" alt="Image de {{ boutique.nom }}" class="w-full md:w-[270px] h-[203px] object-cover rounded mb-4 md:mb-0 md:mr-4">
                     <div class="flex flex-col justify-between">
                         <h3 class="text-xl font-semibold">{{ boutique.nom }}</h3>
                         <p class="text-gray-600">{{ boutique.adresse }}</p>
                         <p class="text-gray-600">{{ boutique.ville }}, {{ boutique.cp }}</p>
-                        <p class="text-gray-700 mt-2"></p>
-                        <a href="{{ path('app_boutique_template', {'slug': boutique.slug}) }}" class="bg-secondary text-white py-2 px-4 rounded mt-2">Je découvre</a>
+                        <a href="{{ path('app_boutique_template', {'slug': boutique.slug}) }}" class="btn btn-lg btn-primary w-[200px] py-2 mt-4 rounded bg-secondary text-center text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">Je découvre</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dropdownButton = document.querySelector('.dropdown-button');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
 
-        dropdownButton.addEventListener('click', function() {
-            dropdownMenu.classList.toggle('hidden');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownButton = document.querySelector('.dropdown-button');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            dropdownButton.addEventListener('click', function () {
+                dropdownMenu.classList.toggle('hidden');
+            });
         });
-    });
     </script>
 {% endblock %}

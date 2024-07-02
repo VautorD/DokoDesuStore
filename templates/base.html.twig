@@ -1,111 +1,126 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock %}
-    </head>
-    
-<body class="font-poppins min-h-screen flex flex-col">
-    <header class="bg-white">
-        <!-- Partie du haut du header -->
-        <div class="max-w-screen-lg mx-auto p-4 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <!-- Logo -->
-                <img src="{{ asset('build/img/logo.png') }}" alt="Logo" class="h-15">
-            </div>
-            <div class="relative flex-1 max-w-sm">
-                <form action="{{ path('search') }}" method="GET" class="relative flex-1 max-w-sm">
-                    <input type="text" name="q" placeholder="Recherche..." value="{{ app.request.query.get('q') }}"
-                        class="w-full py-2 pl-10 pr-3 border rounded focus:outline-none focus:ring focus:border-blue-300">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <img src="{{ asset('build/icons/search-alt.png') }}" alt="search-icon">
-                    </div>
-                </form>
-            </div>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="{{ asset('build/tailwind.css') }}" rel="stylesheet">
+		<script src="https://cdn.tailwindcss.com"></script>
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+		<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+	</head>
 
-            <div class="flex items-end pb-2 space-x-4">
-                {% if app.user %}
+	<body class="font-poppins">
+		<header
+			class="bg-white">
+			<!-- Partie du haut du header -->
+			<div class="max-w-screen-lg mx-auto p-4 flex items-center justify-between">
 
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <div class="icon-container group">
-                            <a href="{{ path('app_admin_index') }}">
-                                <img src="{{ asset('build/icons/admin.png') }}" alt="Admin" class="size-6 hover:text-secondary">
-                            </a>
-                        </div>
-                    {% endif %}
-                    
-                    <!-- Icone utilisateur avec effet au survol -->
-                    <div class="icon-container group">
-                        <a href="{{ path('app_profile_index') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-6 hover:text-secondary">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Icone panier avec effet au survol -->
-                    <div class="icon-container group">
-                        <a href="{{ path('app_panier_index') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-6 hover:text-secondary">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="icon-container group">
-                        <a href="{{ path('app_logout') }}">
-                            <img src="{{ asset('build/icons/deco.png') }}" alt="Admin" class="size-6 hover:text-secondary">
-                        </a>
-                     </div>
-                {% else %}
-                    <!-- Icone utilisateur avec effet au survol -->
-                    <div class="icon-container group">
-                        <a href="{{ path('app_login') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-6 hover:text-secondary">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Icone panier avec effet au survol -->
-                    <div class="icon-container group">
-                        <a href="{{ path('app_login') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-6 hover:text-secondary">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
-                            </svg>
-                        </a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <!-- Partie du bas du header (navigation) -->
-        <nav class="bg-white font-medium shadow-custom">
-            <ul class="flex justify-around space-x-6 p-4">
-                <li><a href="{{ path('Home') }}" class="text-secondary hover:text-secondary active:text-secondary">Home</a></li>
-                <li><a href="{{ path('app_categorieP_list', {slug: "vetements"}) }}" class="hover:text-secondary active:text-secondary">Vêtements</a></li>
-                <li><a href="{{ path('app_categorieP_list', {slug: "cosplay"}) }}" class="hover:text-secondary active:text-secondary">Cosplay</a></li>
-                <li><a href="{{ path('app_categorieP_list', {slug: "libraireies"}) }}" class="hover:text-secondary active:text-secondary">Librairies</a></li>
-                <li><a href="{{ path('app_categorieP_list', {slug: "produits-derives"}) }}" class="hover:text-secondary active:text-secondary">Produits dérivés</a></li>
-                <li><a href="{{ path('app_categorieP_list', {slug: "alimentaire"}) }}" class="hover:text-secondary active:text-secondary">Alimentaire</a></li>
-            </ul>
-        </nav>
-    </header>
-    {% block body %}{% endblock %}
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
-    <footer class="py-10 mt-auto px-10 bg-primary">
+				<div
+					class="flex items-center space-x-4">
+					<!-- Logo -->
+					<img src="{{ asset('build/img/logo.png') }}" alt="Logo" class="h-15">
+				</div>
+
+				<div class="relative flex-1 max-w-sm">
+					<form action="{{ path('search') }}" method="GET" class="relative flex-1 max-w-sm">
+						<input type="text" name="q" placeholder="Recherche..." value="{{ app.request.query.get('q') }}" class="w-full py-2 pl-10 pr-3 border rounded focus:outline-none focus:ring focus:border-blue-300">
+						<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+							<img src="{{ asset('build/icons/search-alt.png') }}" alt="search-icon">
+						</div>
+					</form>
+				</div>
+
+				<div class="flex items-end pb-2 space-x-4">
+					{% if app.user %}
+
+						{% if is_granted('ROLE_SUPER_ADMIN') %}
+							<div class="icon-container group">
+								<a href="{{ path('app_admin_index') }}">
+									<img src="{{ asset('build/icons/admin.png') }}" alt="Admin" class="size-6 hover:text-secondary">
+								</a>
+							</div>
+						{% endif %}
+
+						<!-- Icone utilisateur avec effet au survol -->
+						<div class="icon-container group">
+							<a href="{{ path('app_profile_index') }}">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:text-secondary">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+								</svg>
+							</a>
+						</div>
+						<!-- Icone panier avec effet au survol -->
+						<div class="icon-container group">
+							<a href="{{ path('app_panier_index') }}">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:text-secondary">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+								</svg>
+							</a>
+						</div>
+						<div class="icon-container group">
+							<a href="{{ path('app_logout') }}">
+								<img src="{{ asset('build/icons/deco.png') }}" alt="Admin" class="size-6 hover:text-secondary">
+							</a>
+						</div>
+					{% else %}
+						<!-- Icone utilisateur avec effet au survol -->
+						<div class="icon-container group">
+							<a href="{{ path('app_login') }}">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:text-secondary">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+								</svg>
+							</a>
+						</div>
+						<!-- Icone panier avec effet au survol -->
+						<div class="icon-container group">
+							<a href="{{ path('app_login') }}">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:text-secondary">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+								</svg>
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<!-- Partie du bas du header (navigation) -->
+			<nav class="bg-white font-medium shadow-custom">
+				<ul class="flex justify-around space-x-6 p-4">
+					<li>
+						<a href="{{ path('Home') }}" class="text-secondary hover:text-secondary active:text-secondary">Home</a>
+					</li>
+					<li>
+						<a href="{{ path('app_categorieP_list', {slug: "vetements"}) }}" class="hover:text-secondary active:text-secondary">Vêtements</a>
+					</li>
+					<li>
+						<a href="{{ path('app_categorieP_list', {slug: "cosplay"}) }}" class="hover:text-secondary active:text-secondary">Cosplay</a>
+					</li>
+					<li>
+						<a href="{{ path('app_categorieP_list', {slug: "libraires"}) }}" class="hover:text-secondary active:text-secondary">Librairies</a>
+					</li>
+					<li>
+						<a href="{{ path('app_categorieP_list', {slug: "produits-derives"}) }}" class="hover:text-secondary active:text-secondary">Produits dérivés</a>
+					</li>
+					<li>
+						<a href="{{ path('app_categorieP_list', {slug: "alimentaire"}) }}" class="hover:text-secondary active:text-secondary">Alimentaire</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		{% block body %}{% endblock %}
+		{% block javascripts %}
+
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+
+		<footer class="py-10 mt-auto px-10 bg-primary">
 			<div class="border-t border-footer2 mx-10"></div>
 			<div class="container text-white flex flex-col lg:flex-row lg:justify-between py-10 px-10">
 				<div class="flex flex-col items-start">
@@ -148,5 +163,6 @@
 		<div class="py-5 bg-[#E5E5E5]">
 			<p class="m-0 text-center text-[#5E6E89]">&copy; Tous droits réservés - Doko Desu Store 2024</p>
 		</div>
-</body>
+		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-Q5fI26f9KoxW+lg/Q6N2wfbxXj+zK7EJ6Dsyy9O58J14m0ktyugXqXxSvy8Tf0Mcp0M5t0r1CgMcZLmeMtvbsw==" crossorigin=""></script>
+	</body>
 </html>

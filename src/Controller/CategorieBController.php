@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\CategorieB;
@@ -7,13 +6,22 @@ use App\Form\CategorieBType;
 use App\Repository\CategorieBRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/categorie/b')]
 class CategorieBController extends AbstractController
 {
+    private $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     #[Route('/', name: 'app_categorie_b_index', methods: ['GET'])]
     public function index(CategorieBRepository $categorieBRepository): Response
     {
@@ -34,6 +42,26 @@ class CategorieBController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gestion du fichier image
+            $imgFile = $form->get('img')->getData();
+
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+
+                try {
+                    $imgFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // handle exception if something happens during file upload
+                }
+
+                $categorieB->setImg($newFilename);
+            }
+
             $entityManager->persist($categorieB);
             $entityManager->flush();
 
@@ -42,14 +70,14 @@ class CategorieBController extends AbstractController
 
         return $this->render('categorie_b/new.html.twig', [
             'categorie_b' => $categorieB,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_categorie_b_show', methods: ['GET'])]
     public function show(CategorieB $categorieB): Response
     {
-        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
         return $this->render('categorie_b/show.html.twig', [
             'categorie_b' => $categorieB,
         ]);
@@ -58,11 +86,31 @@ class CategorieBController extends AbstractController
     #[Route('/{id}/edit', name: 'app_categorie_b_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CategorieB $categorieB, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
         $form = $this->createForm(CategorieBType::class, $categorieB);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gestion du fichier image
+            $imgFile = $form->get('img')->getData();
+
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+
+                try {
+                    $imgFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // handle exception if something happens during file upload
+                }
+
+                $categorieB->setImg($newFilename);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_categorie_b_index', [], Response::HTTP_SEE_OTHER);
@@ -70,7 +118,7 @@ class CategorieBController extends AbstractController
 
         return $this->render('categorie_b/edit.html.twig', [
             'categorie_b' => $categorieB,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

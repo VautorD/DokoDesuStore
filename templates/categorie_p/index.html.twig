@@ -3,7 +3,6 @@
 {% block title %}Categorie index{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto">
         <div class="flex">
             <aside class="w-72 bg-gray-100 p-4">
                 {% include "_partieAdmin/_adminbarre.html.twig" %}
@@ -16,7 +15,9 @@
                     <table class="min-w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600">
+                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <th class="py-2 px-4 text-center">Id</th>
+                                {% endif %}
                                 <th class="py-2 px-4 text-center">Nom</th>
                                 <th class="py-2 px-4 text-center">Description</th>
                                 <th class="py-2 px-4 text-center">Image</th>
@@ -27,11 +28,13 @@
                         <tbody>
                             {% for categorie_p in categorie_ps %}
                                 <tr class="border-b border-gray-200">
+                                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                                     <td class="py-2 px-4 text-center">{{ categorie_p.id }}</td>
+                                    {% endif %}
                                     <td class="py-2 px-4">{{ categorie_p.Nom }}</td>
                                     <td class="py-2 px-4">{{ categorie_p.Description }}</td>
                                     <td class="py-2 px-4">
-                                        <img src="{{ asset('build/img/' ~ categorie_p.img) }}" alt="{{ categorie_p.Nom }}" class="mx-auto h-12 w-12 object-cover rounded-full">
+                                        <img src="{{ asset('/img/' ~ categorie_p.img) }}" alt="{{ categorie_p.Nom }}" class="mx-auto h-12 w-12 object-cover rounded-full">
                                     </td>
                                     <td class="py-2 px-4 text-center">{{ categorie_p.Slug }}</td>
                                     <td class="py-2 px-4 text-center">
@@ -47,8 +50,7 @@
                     </table>
                 </div>
 
-                <a href="{{ path('app_categorie_p_new') }}" class="inline-block mx-auto py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">Créer une nouvelle catégorie</a>
+                <a href="{{ path('app_categorie_p_new') }}" class="inline-block mx-auto mt-6 py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">Créer une nouvelle catégorie</a>
             </main>
         </div>
-    </div>
 {% endblock %}

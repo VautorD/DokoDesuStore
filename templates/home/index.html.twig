@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil
+{% endblock %}
 
 {% block body %}
 	<div class="relative h-[540px] bg-cover bg-center mb-8" style="background-image: url('img/homeBanniere.jpeg');">
@@ -15,30 +16,32 @@
 	</div>
 	{# Meilleurs ventes #}
 	<div class="container mx-auto my-8 px-8 lg:px-16">
-		<div class="text-start ">
-			<h1 class="text-4xl font-bold mb-4">Meilleures ventes</h1>
-			<h2 class="text-sm text-gray-700 mb-8">Commandez pour vous ou vos proches.</h2>
+		<div class="text-start">
+			<h1 class="text-4xl font-bold mt-16 mb-4">Meilleures ventes</h1>
+			<h2 class="text-sm text-gray-700 mb-12">Commandez pour vous ou vos proches.</h2>
 		</div>
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 			{% for produit in produits|slice(0, 12) %}
-				<div class="w-[255px] h-[230px] rounded overflow-hidden shadow-lg mx-auto">
-					<img class="w-full h-36 object-cover" src="{{ asset('build/img/' ~ produit.img) }}" alt="Produit">
+				<div class="w-[255px] max-h rounded overflow-hidden shadow-lg mx-auto">
+					<img class="w-full h-36 object-cover" src="{{ asset('/img/' ~ produit.img) }}" alt="Produit">
 					<div class="px-6 py-4">
 						<div class="font-bold text-start text-l mb-2">{{ produit.nom }}</div>
-						<p class="text-secondary text-end text-base">{{ produit.prix }} €</p>
+						<p class="text-secondary text-end text-base">{{ produit.prix }}
+							€</p>
 					</div>
 				</div>
 			{% endfor %}
+
 		</div>
 	</div>
 	{# Meilleurs ventes alimentaires #}
-	<div class="container mx-auto my-8 px-8 lg:px-16 mb-16">
+	<div class="container mx-auto my-8 px-8 lg:px-16 mb-16 mt-16">
 		<div class="text-end">
 			<h1 class="text-4xl font-bold mb-4">Meilleures ventes alimentaires</h1>
 			<h2 class="text-sm text-gray-700 mb-8">Offrez de nouvelles saveurs à vos papilles.</h2>
 		</div>
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-			<div class="w-[255px] h-[230px] rounded overflow-hidden shadow-lg mx-auto">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+			<div class="w-[255px] max-h rounded overflow-hidden shadow-lg mx-auto">
 				<img class="w-full h-36 object-cover" src="" alt="Produit">
 				<div class="px-6 py-4 bg">
 					<div class="font-bold text-start text-l mb-2">Nom du produit</div>
@@ -47,7 +50,7 @@
 			</div>
 		</div>
 	</div>
-    {# infos doko desu store #}
+	{# infos doko desu store #}
 	<div class="w-full bg-[#F7F8FA] py-16">
 		<div class="container mx-auto flex flex-col lg:flex-row items-center justify-between px-8 lg:px-16">
 			<div class="max-w-lg lg:max-w-none lg:w-1/2">
@@ -57,24 +60,23 @@
 					C'est ce que s'engage à faire Doko Desu Store : découvrez une nouvelle façon de faire du shopping avec notre plateforme qui rassemble toutes vos boutiques physiques préférées en un seul endroit pratique.</p>
 			</div>
 			<div class="flex justify-center lg:w-1/2">
-				<img src="/build/img/infosHome.jpeg" alt="Illustration" class="w-[375px] h-[560px] object-cover">
+				<img src="/img/infosHome.jpeg" alt="Illustration" class="w-[375px] h-[560px] object-cover">
 			</div>
 		</div>
 	</div>
-	
-    {# quelques catégories boutique #}
-    <div class="w-full bg-vert py-16">
+
+	{# quelques catégories boutique #}
+	<div class="w-full bg-vert py-16">
 		<div class="text-center mb-8">
 			<h1 class="text-4xl font-bold mb-4 mt-8">Catégories de boutique</h1>
 			<h2 class="text-sm text-gray-700 mb-8">Des boutiques pour tous les goûts.</h2>
 		</div>
 		<section class="mb-12">
-			<h2 class="text-2xl font-bold mb-6">Catégories</h2>
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-				{% for categorie in categoriesB|slice(0, 4) %}
-					<div class="w-[350px] h-[230px] rounded overflow-hidden shadow-lg mx-auto bg-white">
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{% for categorie in categoriesB|slice(0, 3) %}
+					<div class="w-[350px] max-h rounded overflow-hidden shadow-lg mx-auto bg-white">
 						{% if categorie.img %}
-							<img class="w-full h-36 object-cover" src="{{ asset('uploads/' ~ categorie.img) }}" alt="{{ categorie.nom }}">
+							<img class="w-full h-36 object-cover" src="{{ asset('/img/' ~ categorie.img) }}" alt="{{ categorie.nom }}">
 						{% else %}
 							<img class="w-full h-36 object-cover" src="{{ asset('default_image_path') }}" alt="Default Image">
 						{% endif %}
@@ -85,5 +87,10 @@
 				{% endfor %}
 			</div>
 		</section>
+		<div class="flex justify-center items-center">
+			<a href="{{ path('app_boutique_all') }}" class="btn py-2 px-4 mb-6 rounded bg-vert text-black border border-black">
+				Tout voir
+			</a>
+		</div>
 	</div>
 {% endblock %}

@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 #[Route('/categorie/p')]
 class CategoriePController extends AbstractController
@@ -52,7 +54,6 @@ class CategoriePController extends AbstractController
         
         $slug = $request->attributes->get('slug');
         $categorie_p = $categoriePRepository->findOneBy(['slug' => $slug]);
-
         $produits = $this->getProduitsRecursive($categorie_p);
 
         return $this->render('categorie_p/list.html.twig', [

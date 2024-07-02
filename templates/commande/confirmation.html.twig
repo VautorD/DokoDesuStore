@@ -3,36 +3,41 @@
 {% block title %}Confirmation de commande{% endblock %}
 
 {% block body %}
-    <h1>Confirmation de la commande</h1>
-
-    <p>Détails de la commande :</p>
-    <ul>
-        <li>Numéro de commande : {{ commande.id }}</li>
-        <li>Date de commande : {{ commande.date|date('d/m/Y H:i') }}</li>
-        <li>Total : {{ total }} €</li>
-    </ul>
-
-    <p>Liste des produits :</p>
-    <ul>
-        {% for ligneCommande in commande.getLigneCommande() %}
-            <li>
-                {{ ligneCommande.getProduit().getNom() }} - 
-                Quantité : {{ ligneCommande.getQuantite() }} - 
-                Prix unitaire : {{ ligneCommande.getProduit().getPrix() }} €
-                <br>
-                Magasin :
-                <div>
-                    <img src="#" style="max-width: 100px; max-height: 100px;">
-                    <h3>{{ ligneCommande.getProduit().getBoutique().getNom() }}</h3>
-                    <p>{{ ligneCommande.getProduit().getBoutique().getAdresse() }}</p>
-                    <a href="{{ path('app_boutique_template', {'slug': ligneCommande.getProduit().getBoutique().getSlug()})}}">Voir la boutique</a>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
+    <div class='flex items-center gap-10 flex-col p-20  bg-cover bg-center' style="background-image: url('{{ asset('build/img/confirmation_commande.jpg') }}');">
+        <div class="bg-[#F7F8FA]/80 backdrop-blur-md h-[380px] w-full max-w-4xl mx-4 p-6 rounded-lg flex flex-col items-center justify-center text-center h-auto">
+            <div class='flex items-center flex-col gap-2'>
+                <h6 class='font-semibold text-h6 '>Confirmation de la commande</h6>
+                <p class="text-primary-Text font-medium">Détails de la commande :</p>
+                <ul class="w-full flex flex-col items-start">
+                    <li class="text-primary-Text font-regular">Numéro de commande : {{ commande.id }}</li>
+                    <li class="text-primary-Text font-regular">Date de commande : {{ commande.date|date('d/m/Y H:i') }}</li>
+                    <li class="text-primary-Text font-regular">Total : {{ total }} €</li>
+                </ul>
+                <p class="text-primary-Text font-medium">Liste des produits :</p>
+                <ul>
+                    {% for ligneCommande in commande.getLigneCommande() %}
+                        <li class="text-primary-Text font-regular">
+                            {{ ligneCommande.getProduit().getNom() }} - 
+                            Quantité : {{ ligneCommande.getQuantite() }} - 
+                            Prix unitaire : {{ ligneCommande.getProduit().getPrix() }} €
+                            <br>
+                            <div class="flex justify-center py-3">
+                                <p class="text-primary-Text font-semibold">Magasin :</p>
+                            </div>
+                            <div class='grid grid-cols-2 justify-items-center'>
+                                <div>
+                                    <img src="{{ asset('build/img/livai.png')}}" style="max-width: 100px; max-height: 100px;">
+                                </div>
+                                <div>
+                                    <h3>{{ ligneCommande.getProduit().getBoutique().getNom() }}</h3>
+                                    <p>{{ ligneCommande.getProduit().getBoutique().getAdresse() }}</p>
+                                    <a href="{{ path('app_boutique_template', {'slug': ligneCommande.getProduit().getBoutique().getSlug()})}}" class="text-lien text-secondary underline">Voir la boutique</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

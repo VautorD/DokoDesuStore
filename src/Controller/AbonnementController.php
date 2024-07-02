@@ -17,6 +17,8 @@ class AbonnementController extends AbstractController
     #[Route('/', name: 'app_abonnement_index', methods: ['GET'])]
     public function index(AbonnementRepository $abonnementRepository): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+
         return $this->render('abonnement/index.html.twig', [
             'abonnements' => $abonnementRepository->findAll(),
         ]);
@@ -25,6 +27,8 @@ class AbonnementController extends AbstractController
     #[Route('/new', name: 'app_abonnement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+
         $abonnement = new Abonnement();
         $form = $this->createForm(AbonnementType::class, $abonnement);
         $form->handleRequest($request);
@@ -45,6 +49,8 @@ class AbonnementController extends AbstractController
     #[Route('/{id}', name: 'app_abonnement_show', methods: ['GET'])]
     public function show(Abonnement $abonnement): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+        
         return $this->render('abonnement/show.html.twig', [
             'abonnement' => $abonnement,
         ]);
@@ -53,6 +59,8 @@ class AbonnementController extends AbstractController
     #[Route('/{id}/edit', name: 'app_abonnement_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Abonnement $abonnement, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+
         $form = $this->createForm(AbonnementType::class, $abonnement);
         $form->handleRequest($request);
 
@@ -71,6 +79,8 @@ class AbonnementController extends AbstractController
     #[Route('/{id}', name: 'app_abonnement_delete', methods: ['POST'])]
     public function delete(Request $request, Abonnement $abonnement, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$abonnement->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($abonnement);
             $entityManager->flush();

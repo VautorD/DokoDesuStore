@@ -24,6 +24,8 @@ class BoutiqueController extends AbstractController
     #[Route('/', name: 'app_boutique_index', methods: ['GET'])]
     public function index(BoutiqueRepository $boutiqueRepository): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+        
         return $this->render('boutique/index.html.twig', [
             'boutiques' => $boutiqueRepository->findAll(),
         ]);
@@ -50,6 +52,8 @@ class BoutiqueController extends AbstractController
     #[Route('/boutique/new', name: 'app_boutique_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
+
         $boutique = new Boutique();
         $form = $this->createForm(BoutiqueType::class, $boutique);
         $form->handleRequest($request);
@@ -84,6 +88,8 @@ class BoutiqueController extends AbstractController
     #[Route('/professionnel/{id}', name: 'app_professionel_boutique', methods: ['GET'])]
     public function showMyBoutique(BoutiqueRepository $boutiqueRepository): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
+
         $user = $this->getUser();
 
         if (!$user) {
@@ -106,6 +112,7 @@ class BoutiqueController extends AbstractController
     #[Route('/{id}', name: 'app_boutique_show', methods: ['GET'])]
     public function show(Boutique $boutique): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
         return $this->render('boutique/show.html.twig', [
             'boutique' => $boutique,
         ]);
@@ -115,6 +122,7 @@ class BoutiqueController extends AbstractController
     #[Route('/{id}/edit', name: 'app_boutique_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Boutique $boutique, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
         $form = $this->createForm(BoutiqueType::class, $boutique);
         $form->handleRequest($request);
 
@@ -137,6 +145,7 @@ class BoutiqueController extends AbstractController
     #[Route('/{id}', name: 'app_boutique_delete', methods: ['POST'])]
     public function delete(Request $request, Boutique $boutique, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete' . $boutique->getId(), $request->request->get('_token'))) {
             $entityManager->remove($boutique);
             $entityManager->flush();

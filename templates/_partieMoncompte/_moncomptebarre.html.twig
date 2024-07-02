@@ -13,14 +13,16 @@
                         <li><a href="{{ path('app_commande_historique') }}" class="text-blue-600 hover:text-blue-800">Voir mes commandes</a></li>
                     </ul>
                     <ul>
-                        <h2 class="text-xl font-semibold mb-4">Ma boutique</h2>
-                        <div>
+                    <div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <h2 class="text-xl font-semibold mb-4">Ma boutique</h2>
                             {% if boutique %}
-                        <li><a href="{{ path('app_professionnel') }}" class="text-blue-600 hover:text-blue-800">Gérer ma boutique</a></li>
+                                <li><a href="{{ path('app_professionnel') }}" class="text-blue-600 hover:text-blue-800">Gérer ma boutique</a></li>
                             {% else %}
-                        <li><a href="{{ path('app_boutique_new') }}" class="text-blue-600 hover:text-blue-800">Enregistrer ma boutique</a></li>
+                                <li><a href="{{ path('app_boutique_new') }}" class="text-blue-600 hover:text-blue-800">Enregistrer une boutique</a></li>
                             {% endif %}
-                         </div>
+                        {% endif %}
+                    </div>
                     </ul>
                 </div>
             </aside>

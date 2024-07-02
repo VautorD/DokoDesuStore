@@ -17,6 +17,8 @@ class CategorieBController extends AbstractController
     #[Route('/', name: 'app_categorie_b_index', methods: ['GET'])]
     public function index(CategorieBRepository $categorieBRepository): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+        
         return $this->render('categorie_b/index.html.twig', [
             'categorie_bs' => $categorieBRepository->findAll(),
         ]);
@@ -26,6 +28,7 @@ class CategorieBController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+
         $categorieB = new CategorieB();
         $form = $this->createForm(CategorieBType::class, $categorieB);
         $form->handleRequest($request);
@@ -74,6 +77,8 @@ class CategorieBController extends AbstractController
     #[Route('/{id}', name: 'app_categorie_b_delete', methods: ['POST'])]
     public function delete(Request $request, CategorieB $categorieB, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$categorieB->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($categorieB);
             $entityManager->flush();

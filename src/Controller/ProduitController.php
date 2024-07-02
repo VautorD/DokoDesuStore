@@ -22,6 +22,8 @@ class ProduitController extends AbstractController
     #[Route('/', name: 'app_produit_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+
         return $this->render('produit/index.html.twig', [
             'produits' => $produitRepository->findAll(),
         ]);
@@ -30,6 +32,8 @@ class ProduitController extends AbstractController
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, BoutiqueRepository $boutiqueRepository): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
+
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
@@ -57,11 +61,8 @@ class ProduitController extends AbstractController
             $entityManager->persist($produit);
             $entityManager->flush();
 
-            if ($this->isGranted('ROLE_SUPER_ADMIN')) {
-                    return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-                } elseif ($this->isGranted('ROLE_ADMIN')) {
-                    return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
-                }
+             return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
+             
             }
 
         return $this->render('produit/new.html.twig', [
@@ -87,6 +88,8 @@ class ProduitController extends AbstractController
     #[Route('/produit/list', name: 'app_produit_boutique', methods: ['GET'])]
     public function listByBoutique(ProduitRepository $produitRepository, BoutiqueRepository $boutiqueRepository): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
+
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
@@ -167,6 +170,7 @@ class ProduitController extends AbstractController
     #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
         return $this->render('produit/show.html.twig', [
             'produit' => $produit,
         ]);
@@ -175,6 +179,8 @@ class ProduitController extends AbstractController
     #[Route('/{id}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
@@ -197,6 +203,8 @@ class ProduitController extends AbstractController
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnLessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($produit);
             $entityManager->flush();

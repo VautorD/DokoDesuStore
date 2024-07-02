@@ -73,22 +73,22 @@
         </script>
     </div>
 
-    <div class="py-5 mt-auto bg-vert">
+   <div class="py-5 mt-auto bg-vert">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl font-semibold mb-12 mt-12">Tous les produits de cette boutique</h2>
-            <div class="flex justify-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {% for produit in boutique.produits %}
-                    <div class="bg-white shadow-md w-64">
-                        <img src="{{ asset('/img/' ~ produit.img) }}" alt="Image du produit {{ produit.nom }}" class="w-full h-36 object-cover">
-                        <div class="py-4">
-                            <div>
-                                <h3 class="text-start text-lg font-semibold pl-6">{{ produit.nom }}</h3>
-                                <p class="text-end text-xl pr-6 text-gray-700">{{ produit.prix }} €</p>
-                            </div>
-                            <button class="btn btn-lg btn-primary py-2 px-4 mt-4 rounded bg-secondary text-center text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">
-                                <a href="{{ path('app_produit_details', {'slug': produit.slug}) }}">Voir plus</a>
-                            </button>
+                    <div class="bg-white max-h shadow-md rounded overflow-hidden flex flex-col justify-between">
+                        <img src="{{ asset('/img/' ~ produit.img) }}" alt="Image du produit {{ produit.nom }}" class="w-full h-36 object-cover mb-4">
+                        <div class="px-6 py-4">
+                            <h3 class="text-start text-lg font-semibold">{{ produit.nom }}</h3>
+                            <p class="text-end text-xl text-gray-700">{{ produit.prix }} €</p>
                         </div>
+						<div class="flex justify-center items-center pb-4">
+                        <button class="btn btn-lg btn-primary w-[100px] py-2 px-4 mt-4 rounded bg-secondary text-center text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">
+                            <a href="{{ path('app_produit_details', {'slug': produit.slug}) }}">Voir plus</a>
+                        </button>
+						</div>
                     </div>
                 {% endfor %}
             </div>

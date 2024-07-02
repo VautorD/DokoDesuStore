@@ -3,38 +3,43 @@
 {% block title %}Historique des commandes{% endblock %}
 
 {% block body %}
-    <h1>Historique des commandes</h1>
-
-    {% if commandes is empty %}
-        <p>Aucune commande trouvée.</p>
-    {% else %}
-        <ul>
-            {% for commande in commandes %}
-                <li>
-                    <strong>Numéro de commande :</strong> {{ commande.getId() }}<br>
-                    <strong>Date de commande :</strong> {{ commande.getDate()|date('d/m/Y H:i') }}<br>
-                    <strong>Total :</strong> 
-                    {% set total = 0 %}
-                    {% for ligneCommande in commande.getLigneCommande() %}
-                        {% set total = total + (ligneCommande.getQuantite() * ligneCommande.getProduit().getPrix()) %}
+    <div class="container mx-auto p-8">
+        <div class="flex flex-col items-center gap-4">
+            <p class="font-bold text-h5 mb-6">Historique des commandes</p>
+            {% if commandes is empty %}
+                <p class="text-primary-Text">Aucune commande trouvée.</p>
+            {% else %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                    {% for commande in commandes %}
+                        <div class="bg-white shadow-custom rounded-lg p-6">
+                            <h3 class="font-semibold text-lg mb-2">Commande #{{ commande.getId() }}</h3>
+                            <p><strong>Date de commande :</strong> {{ commande.getDate()|date('d/m/Y H:i') }}</p>
+                            <p><strong>Total :</strong> 
+                            {% set total = 0 %}
+                            {% for ligneCommande in commande.getLigneCommande() %}
+                                {% set total = total + (ligneCommande.getQuantite() * ligneCommande.getProduit().getPrix()) %}
+                            {% endfor %}
+                            {{ total }} €</p>
+                            <div class="mt-4">
+                                <strong>Boutique :</strong>
+                                <div class="flex items-center mt-2">
+                                    <img src="{{ asset(commande.getBoutique().getImg()) }}" alt="{{ commande.getBoutique().getNom() }}" class="w-16 h-16 rounded mr-4">
+                                    <div>
+                                        <h4 class="font-semibold">{{ commande.getBoutique().getNom() }}</h4>
+                                        <p class="text-primary-Text">{{ commande.getBoutique().getAdresse() }}</p>
+                                    </div>
+                                </div>
+                                <a href="{{ path('app_boutique_template', {'slug': commande.getBoutique().getSlug()}) }}" class="text-secondary text-lien hover:underline mt-2 inline-block">Voir la boutique</a>
+                            </div>
+                            <a href="{{ path('app_commande_confirmation', {'id': commande.getId()}) }}" class="text-secondary text-lien hover:underline mt-4 inline-block">Détails de la commande</a>
+                        </div>
                     {% endfor %}
-                    {{ total }} €<br>
-                    <strong>Boutique :</strong>
-                    <div>
-                        <img src="{{ asset(commande.getBoutique().getImg()) }}" alt="{{ commande.getBoutique().getNom() }}" style="max-width: 100px; max-height: 100px;">
-                        <h3>{{ commande.getBoutique().getNom() }}</h3>
-                        <p>{{ commande.getBoutique().getAdresse() }}</p>
-                        <a href="{{ path('app_boutique_template', {'slug': commande.getBoutique().getSlug()}) }}">Voir la boutique</a>
-                    </div>
-                    <a href="{{ path('app_commande_confirmation', {'id': commande.getId()}) }}">Détails de la commande</a>
-                </li>
-                <hr>
-            {% endfor %}
-        </ul>
-    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
-{% endblock %}
+
+
+

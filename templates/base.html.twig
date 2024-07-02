@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{{ asset('build/tailwind.css') }}" rel="stylesheet">
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
@@ -12,16 +11,14 @@
     {% endblock %}
     </head>
     
-<body class="font-poppins">
+<body class="font-poppins min-h-screen flex flex-col">
     <header class="bg-white">
         <!-- Partie du haut du header -->
         <div class="max-w-screen-lg mx-auto p-4 flex items-center justify-between">
-
             <div class="flex items-center space-x-4">
                 <!-- Logo -->
                 <img src="{{ asset('build/img/logo.png') }}" alt="Logo" class="h-15">
             </div>
-
             <div class="relative flex-1 max-w-sm">
                 <form action="{{ path('search') }}" method="GET" class="relative flex-1 max-w-sm">
                     <input type="text" name="q" placeholder="Recherche..." value="{{ app.request.query.get('q') }}"
@@ -108,7 +105,6 @@
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
-
     <footer class="py-10 mt-auto px-10 bg-primary">
 			<div class="border-t border-footer2 mx-10"></div>
 			<div class="container text-white flex flex-col lg:flex-row lg:justify-between py-10 px-10">

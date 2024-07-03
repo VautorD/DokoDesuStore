@@ -7,13 +7,17 @@
         <div class="bg-[#F7F8FA]/80 backdrop-blur-md h-[380px] w-full max-w-4xl mx-4 p-6 rounded-lg flex flex-col items-center justify-center text-center h-auto">
             <div class='flex items-center flex-col gap-2'>
                 <h6 class='font-semibold text-h6 '>Confirmation de la commande</h6>
-                <p class="text-primary-Text font-medium">Détails de la commande :</p>
+                <div class="flex">
+                    <p class="text-primary-Text font-medium underline">Détails de la commande </p><p  class="text-primary-Text font-medium">:</p>
+                </div>
                 <ul class="w-full flex flex-col items-start">
                     <li class="text-primary-Text font-regular">Numéro de commande : {{ commande.id }}</li>
                     <li class="text-primary-Text font-regular">Date de commande : {{ commande.date|date('d/m/Y H:i') }}</li>
                     <li class="text-primary-Text font-regular">Total : {{ total }} €</li>
                 </ul>
-                <p class="text-primary-Text font-medium">Liste des produits :</p>
+                <div class="flex">
+                    <p class="text-primary-Text font-medium underline">Liste des produits </p><p  class="text-primary-Text font-medium">:</p>
+                </div>
                 <ul>
                     {% for ligneCommande in commande.getLigneCommande() %}
                         <li class="text-primary-Text font-regular">

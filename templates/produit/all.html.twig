@@ -51,7 +51,7 @@
                     <div class="bg-white h-60 p-2 rounded-lg shadow-custom">
                         <a href="{{ path('app_produit_details', { 'slug': produit.slug }) }}" class="block">
                             <div class='flex justify-center'>
-                                <img src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}" class="h-32 object-cover rounded-t-lg">
+                                <img src="{{ asset('img/' ~ produit.img) }}" alt="Image de {{ produit.nom }}" class="h-32 object-cover rounded-t-lg w-full">
                             </div>
                             <div class="p-2">
                                 <h3 class="text-lg font-semibold">{{ produit.nom }} </h3>

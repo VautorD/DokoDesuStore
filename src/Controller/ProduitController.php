@@ -213,11 +213,7 @@ class ProduitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            if ($this->isGranted('ROLE_SUPER_ADMIN')) {
-                return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-            } elseif ($this->isGranted('ROLE_ADMIN')) {
-                return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
-            }
+            return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('produit/edit.html.twig', [
@@ -236,6 +232,6 @@ class ProduitController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);
     }
 }

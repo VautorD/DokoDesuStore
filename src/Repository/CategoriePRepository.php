@@ -16,6 +16,20 @@ class CategoriePRepository extends ServiceEntityRepository
         parent::__construct($registry, CategorieP::class);
     }
 
+
+    /**
+     * @param string $nom
+     * @return CategorieP|null
+     */
+    public function findOneByNom(string $nom): ?CategorieP
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.nom = :nom')
+            ->setParameter('nom', $nom)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return CategorieP[] Returns an array of CategorieP objects
     //     */

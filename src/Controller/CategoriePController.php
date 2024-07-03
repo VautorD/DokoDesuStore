@@ -48,7 +48,17 @@ class CategoriePController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_categorieP_list', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_categorie_p_show', methods: ['GET'])]
+    public function show(CategorieP $categorieP): Response
+    {
+        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
+
+        return $this->render('categorie_p/show.html.twig', [
+            'categorie_p' => $categorieP,
+        ]);
+    }
+
+    #[Route('categorie/{slug}', name: 'app_categorieP_list', methods: ['GET'])]
     public function list(Request $request, CategoriePRepository $categoriePRepository): Response
     {
         
@@ -75,16 +85,6 @@ class CategoriePController extends AbstractController
         }
 
         return $produits;
-    }
-
-    #[Route('/{id}', name: 'app_categorie_p_show', methods: ['GET'])]
-    public function show(CategorieP $categorieP): Response
-    {
-        $this->denyAccessUnLessGranted('ROLE_SUPER_ADMIN');
-
-        return $this->render('categorie_p/show.html.twig', [
-            'categorie_p' => $categorieP,
-        ]);
     }
 
     #[Route('/{id}/edit', name: 'app_categorie_p_edit', methods: ['GET', 'POST'])]

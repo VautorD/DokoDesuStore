@@ -4,11 +4,11 @@
 
 {% block body %}
     <div class='flex items-center gap-10 flex-col p-20  bg-cover bg-center' style="background-image: url('{{ asset('build/img/confirmation_commande.jpg') }}');">
-        <div class="bg-[#F7F8FA]/80 backdrop-blur-md h-[380px] w-full max-w-4xl mx-4 p-6 rounded-lg flex flex-col items-center justify-center text-center h-auto">
+        <div class="bg-[#F7F8FA]/80 backdrop-blur-md h-[380px] w-auto mx-4 p-6 rounded-lg flex flex-col items-center justify-center text-center h-auto">
             <div class='flex items-center flex-col gap-2'>
                 <h6 class='font-semibold text-h6 '>Confirmation de la commande</h6>
                 <div class="flex">
-                    <p class="text-primary-Text font-medium underline">Détails de la commande </p><p  class="text-primary-Text font-medium">:</p>
+                    <p class="text-primary-Text font-medium underline">Détails de la commande </p><p class="text-primary-Text font-medium">:</p>
                 </div>
                 <ul class="w-full flex flex-col items-start">
                     <li class="text-primary-Text font-regular">Numéro de commande : {{ commande.id }}</li>
@@ -16,21 +16,27 @@
                     <li class="text-primary-Text font-regular">Total : {{ total }} €</li>
                 </ul>
                 <div class="flex">
-                    <p class="text-primary-Text font-medium underline">Liste des produits </p><p  class="text-primary-Text font-medium">:</p>
+                    <p class="text-primary-Text font-medium underline">Liste des produits </p><p class="text-primary-Text font-medium">:</p>
                 </div>
-                <ul>
+
+                <div class="flex flex-col gap-4">
                     {% for ligneCommande in commande.getLigneCommande() %}
-                        <li class="text-primary-Text font-regular">
-                            {{ ligneCommande.getProduit().getNom() }} - 
-                            Quantité : {{ ligneCommande.getQuantite() }} - 
-                            Prix unitaire : {{ ligneCommande.getProduit().getPrix() }} €
-                            <br>
+                        <div class="bg-white max-h shadow-md rounded overflow-hidden flex flex-col p-6">
+                            <div class='flex gap-4'>
+                                    <img src="{{ asset('img/' ~ ligneCommande.getProduit().getImg() ) }}" style="max-width: 100px; max-height: 100px;">
+                                <div class="flex flex-col items-start">
+                                    <p>{{ ligneCommande.getProduit().getNom() }} </p>
+                                    <p>Quantité : {{ ligneCommande.getQuantite() }} </p> 
+                                    <p>Prix unitaire : {{ ligneCommande.getProduit().getPrix() }} € </p>
+                                </div>
+                            </div>
+
                             <div class="flex justify-center py-3">
                                 <p class="text-primary-Text font-semibold">Magasin :</p>
                             </div>
                             <div class='grid grid-cols-2 justify-items-center'>
                                 <div>
-                                    <img src="{{ asset('build/img/livai.png')}}" style="max-width: 100px; max-height: 100px;">
+                                    <img src="{{ asset('img/' ~ ligneCommande.getProduit().getBoutique().getImg()) }}" style="max-width: 100px; max-height: 100px;">
                                 </div>
                                 <div>
                                     <h3>{{ ligneCommande.getProduit().getBoutique().getNom() }}</h3>
@@ -38,9 +44,9 @@
                                     <a href="{{ path('app_boutique_template', {'slug': ligneCommande.getProduit().getBoutique().getSlug()})}}" class="text-lien text-secondary hover:underline">Voir la boutique</a>
                                 </div>
                             </div>
-                        </li>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
         </div>
     </div>

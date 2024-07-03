@@ -13,7 +13,9 @@
 			</div>
 			{% for produit in produits %}
 				<div class="bg-white shadow-lg rounded-lg overflow-hidden">
-					<img src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}" class="w-full h-40 object-cover object-center">
+					<div class='flex justify-center'>
+                                <img src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}" class="h-32 object-cover rounded-t-lg w-full">
+                            </div>
 					<div class="p-4">
 						<h2 class="text-gray-800 font-bold text-xl mb-2">{{ produit.nom }}</h2>
 						<p class="text-gray-600 text-sm">{{ produit.description }}</p>

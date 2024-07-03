@@ -36,9 +36,9 @@
                     <td class="py-6 px-2 md:px-4 text-center">{{ item.produit.prix }}€</td>
                     <td class="py-6 px-2 md:px-4 text-center">
                         <div class="flex justify-center items-center gap-2">
-                            <a href="{{ path('app_panier_remove', { 'id': item.produit.id }) }}" class="btn-action">-</a>
+                            <button class="btn-action remove-from-cart" data-id="{{ item.produit.id }}">-</button>
                             <span>{{ item.quantite }}</span>
-                            <a href="{{ path('app_panier_add', { 'id': item.produit.id }) }}" class="btn-action">+</a>
+                            <button class="btn-action add-to-cart" data-id="{{ item.produit.id }}">+</button>
                         </div>
                     </td>
                     <td class="py-6 px-2 md:px-4 text-center">{{ item.produit.prix * item.quantite }}€</td>
@@ -69,4 +69,34 @@
     <p>Votre panier est vide.</p>
     {% endif %}
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const removeFromCartButtons = document.querySelectorAll('.remove-from-cart');
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const productId = button.getAttribute('data-id');
+                const url = `{{ path('app_panier_add', { 'id': '__id__', 'quantity': '__quantity__' }) }}`
+                    .replace('__id__', productId)
+                    .replace('__quantity__', 1); // Mettez ici la quantité souhaitée
+                window.location.href = url;
+            });
+        });
+
+        removeFromCartButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const productId = button.getAttribute('data-id');
+                const url = `{{ path('app_panier_remove', { 'id': '__id__', 'quantity': '__quantity__' }) }}`
+                    .replace('__id__', productId)
+                    .replace('__quantity__', 1); // Mettez ici la quantité souhaitée
+                window.location.href = url;
+            });
+        });
+    });
+</script>
+
 {% endblock %}

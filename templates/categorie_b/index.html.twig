@@ -3,54 +3,54 @@
 {% block title %}Categorie index{% endblock %}
 
 {% block body %}
-        <div class="flex">
-            <aside class="w-72 bg-gray-100 p-4">
-                {% include "_partieAdmin/_adminbarre.html.twig" %}
-            </aside>
-            
-            <main class="flex-1 border border-gray-200 bg-white p-4">
-                <h1 class="text-2xl font-bold mb-4">Liste des catégories de boutique</h1>
+    <div class="flex flex-col md:flex-row">
+        <aside class="w-full md:w-72 bg-gray-100 p-4">
+            {% include "_partieAdmin/_adminbarre.html.twig" %}
+        </aside>
+        
+        <main class="flex-1 border border-gray-200 bg-white p-4">
+            <h1 class="text-2xl font-bold mb-4">Liste des catégories de boutique</h1>
 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full table-auto">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-600">
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-600">
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <th class="py-2 px-4 text-center">Id</th>
+                        {% endif %}
+                            <th class="py-2 px-4 text-center">Nom</th>
+                            <th class="py-2 px-4 text-center">Description</th>
+                            <th class="py-2 px-4 text-center">Image</th>
+                            <th class="py-2 px-4 text-center">Slug</th>
+                            <th class="py-2 px-4 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categorie_b in categorie_bs %}
+                            <tr class="border-b border-gray-200">
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <th class="py-2 px-4 text-center">Id</th>
+                                <td class="py-2 px-4 text-center">{{ categorie_b.id }}</td>
                             {% endif %}
-                                <th class="py-2 px-4 text-center">Nom</th>
-                                <th class="py-2 px-4 text-center">Description</th>
-                                <th class="py-2 px-4 text-center">Image</th>
-                                <th class="py-2 px-4 text-center">Slug</th>
-                                <th class="py-2 px-4 text-center">Actions</th>
+                                <td class="py-2 px-4">{{ categorie_b.Nom }}</td>
+                                <td class="py-2 px-4">{{ categorie_b.Description }}</td>
+                                <td class="py-2 px-4">
+                                    <img src="{{ asset('/img/' ~ categorie_b.img) }}" alt="{{ categorie_b.Nom }}" class="mx-auto h-12 w-12 object-cover rounded-full">
+                                </td>
+                                <td class="py-2 px-4 text-center">{{ categorie_b.Slug }}</td>
+                                <td class="py-2 px-4 text-center">
+                                    <a href="{{ path('app_categorie_b_show', {'id': categorie_b.id}) }}" class="text-blue-500 hover:text-blue-600 mr-2">Gestion</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for categorie_b in categorie_bs %}
-                                <tr class="border-b border-gray-200">
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                    <td class="py-2 px-4 text-center">{{ categorie_b.id }}</td>
-                                {% endif %}
-                                    <td class="py-2 px-4">{{ categorie_b.Nom }}</td>
-                                    <td class="py-2 px-4">{{ categorie_b.Description }}</td>
-                                    <td class="py-2 px-4">
-                                        <img src="{{ asset('/img/' ~ categorie_b.img) }}" alt="{{ categorie_b.Nom }}" class="mx-auto h-12 w-12 object-cover rounded-full">
-                                    </td>
-                                    <td class="py-2 px-4 text-center">{{ categorie_b.Slug }}</td>
-                                    <td class="py-2 px-4 text-center">
-                                        <a href="{{ path('app_categorie_b_show', {'id': categorie_b.id}) }}" class="text-blue-500 hover:text-blue-600 mr-2">Gestion</a>
-                                    </td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="6" class="py-4 text-center">Aucun enregistrement trouvé.</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="py-4 text-center">Aucun enregistrement trouvé.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-                <a href="{{ path('app_categorie_b_new') }}" class="inline-block mx-auto mt-6 py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">Créer une nouvelle catégorie</a>
-            </main>
-        </div>
+            <a href="{{ path('app_categorie_b_new') }}" class="inline-block mt-6 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">Créer une nouvelle catégorie</a>
+        </main>
+    </div>
 {% endblock %}

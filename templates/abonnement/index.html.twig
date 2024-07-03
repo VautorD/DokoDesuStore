@@ -1,39 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Abonnement index{% endblock %}
+{% block title %}Abonnement index
+{% endblock %}
 
 {% block body %}
-    <h1>Abonnement index</h1>
+	<div class="flex flex-col md:flex-row">
+		<aside class="w-full md:w-72 bg-gray-100 p-4">
+			{% include "_partieAdmin/_adminbarre.html.twig" %}
+		</aside>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prix</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for abonnement in abonnements %}
-            <tr>
-                <td>{{ abonnement.id }}</td>
-                <td>{{ abonnement.nom }}</td>
-                <td>{{ abonnement.prix }}</td>
-                <td>{{ abonnement.description }}</td>
-                <td>
-                    <a href="{{ path('app_abonnement_show', {'id': abonnement.id}) }}">show</a>
-                    <a href="{{ path('app_abonnement_edit', {'id': abonnement.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+		<main class="flex-1 border border-gray-200 bg-white p-4">
+			<h1 class="text-2xl font-bold mb-4">Liste des abonnements</h1>
 
-    <a href="{{ path('app_abonnement_new') }}">Create new</a>
+			<div class="overflow-x-auto">
+				<table class="min-w-full table-auto">
+					<thead>
+						<tr class="bg-gray-200 text-gray-600">
+							<th class="py-2 px-4 text-center">Id</th>
+							<th class="py-2 px-4 text-center">Nom</th>
+							<th class="py-2 px-4 text-center">Prix</th>
+							<th class="py-2 px-4 text-center">Description</th>
+							<th class="py-2 px-4 text-center">actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for abonnement in abonnements %}
+							<tr class="border-b border-gray-200">
+								<td class="py-2 px-4">{{ abonnement.id }}</td>
+								<td class="py-2 px-4">{{ abonnement.nom }}</td>
+								<td class="py-2 px-4">{{ abonnement.prix }}</td>
+								<td class="py-2 px-4">{{ abonnement.description }}</td>
+								<td>
+									<a href="{{ path('app_abonnement_show', {'id': abonnement.id}) }}" class="text-blue-500 hover:text-blue-600 mr-2">Gestion</a>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="9" class="py-4 text-center">Aucun abonnement trouvé</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<a href="{{ path('app_abonnement_new') }}" class="inline-block mt-6 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">Créer un nouvel abonnement</a>
+
+		</main>
+	</div>
 {% endblock %}

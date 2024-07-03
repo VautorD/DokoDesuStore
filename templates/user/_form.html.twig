@@ -1,32 +1,32 @@
 {% block body %}
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'class': 'space-y-4 p-6 bg-white'}}) }}
         <div class="mb-4">
-            {{ form_label(form.email, 'Email :', {'label_attr': {'class': 'form-label text-primary-Text font-regular'}}) }}
-            {{ form_widget(form.email, {'attr': {'class': 'form-control bg-white text-primary-Text font-regular'}}) }}
+            {{ form_label(form.email, 'Email :', {'label_attr': {'class': 'block text-primary-Text font-regular'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'mt-1 block w-full border-strock rounded-md shadow-custom bg-white text-primary-Text font-regular px-2'}}) }}
             {{ form_errors(form.email) }}
         </div>
         <div class="mb-4">
-            {{ form_label(form.nom, 'Nom :', {'label_attr': {'class': 'form-label text-primary-Text font-regular'}}) }}
-            {{ form_widget(form.nom, {'attr': {'class': 'form-control text-primary-Text font-regular border border-strock rounded px-2'}}) }}
+            {{ form_label(form.nom, 'Nom :', {'label_attr': {'class': 'block text-primary-Text font-regular'}}) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'mt-1 block w-full border-strock rounded-md shadow-custom text-primary-Text font-regular px-2'}}) }}
             {{ form_errors(form.nom) }}
         </div>
         <div class="mb-4">
-            {{ form_label(form.prenom, 'Prénom :', {'label_attr': {'class': 'form-label text-primary-Text font-regular'}}) }}
-            {{ form_widget(form.prenom, {'attr': {'class': 'form-control text-primary-Text font-regular border border-strock rounded px-2'}}) }}
+            {{ form_label(form.prenom, 'Prénom :', {'label_attr': {'class': 'block text-primary-Text font-regular'}}) }}
+            {{ form_widget(form.prenom, {'attr': {'class': 'mt-1 block w-full border-strock rounded-md shadow-custom text-primary-Text font-regular px-2'}}) }}
             {{ form_errors(form.prenom) }}
         </div>
         <div class="mb-4">
-            {{ form_label(form.tel, 'Téléphone :', {'label_attr': {'class': 'form-label text-primary-Text font-regular'}}) }}
-            {{ form_widget(form.tel, {'attr': {'class': 'form-control text-primary-Text font-regular border border-strock rounded px-2'}}) }}
+            {{ form_label(form.tel, 'Téléphone :', {'label_attr': {'class': 'block text-primary-Text font-regular'}}) }}
+            {{ form_widget(form.tel, {'attr': {'class': 'mt-1 block w-full border-strock rounded-md shadow-custom text-primary-Text font-regular px-2'}}) }}
             {{ form_errors(form.tel) }}
         </div>
         <div class="mb-4">
-            {{ form_label(form.abonnement, 'Abonnement :', {'label_attr': {'class': 'form-label text-primary-Text font-regular'}}) }}
-            {{ form_widget(form.abonnement, {'attr': {'class': 'form-control text-primary-Text font-regular border border-strock rounded px-2'}}) }}
+            {{ form_label(form.abonnement, 'Abonnement :', {'label_attr': {'class': 'block text-primary-Text font-regular'}}) }}
+            {{ form_widget(form.abonnement, {'attr': {'class': 'mt-1 block w-full border-strock rounded-md shadow-custom text-primary-Text font-regular px-2'}}) }}
             {{ form_errors(form.abonnement) }}
         </div>        
-        <button class="border hover:border-secondary text-body-medium font-regular hover:text-secondary p-2 rounded-lg mr-2">
-            {{ button_label|default('Save') }}
+        <button type="submit" class="inline-flex items-center px-4 py-2 rounded bg-secondary text-white hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition duration-300">
+            {{ button_label|default('Enregistrer') }} 
         </button>
     {{ form_end(form) }}
 {% endblock %}

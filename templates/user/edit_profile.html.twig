@@ -1,14 +1,16 @@
-{# templates/user/edit_profile.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Modifier mon profil{% endblock %}
 
 {% block body %}
-    <div class="py-5 px-10 w-full">
-        <h1 class="text-h6 mb-10 font-semibold text-primary-Text text-center">Modifier mon profil</h1>
+    <div class="container mx-auto px-4 py-8">
+		<div class="bg-white shadow-custom overflow-hidden sm:rounded-lg">
+			<div class="px-4 py-5 sm:px-6">
+				<h1 class="text-2xl font-semibold text-gray-800">Modifier mon profil</h1>
+			</div>
 
         {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }}
-        
-    </div>
+            <a href="{{ path('app_profile_index') }}" class="inline-block text-sm ml-4 mb-4 px-4 py-2 leading-none border rounded-lg text-primary border-primary hover:border-transparent hover:text-white hover:bg-primary mt-4 lg:mt-0">Retourner à ma mon profil</a>
+        </div>
+	</div>
 {% endblock %}

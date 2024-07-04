@@ -13,21 +13,19 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(
-        CategorieBRepository $categorieBRepository,
-        ProduitRepository $produitRepository,
-        BoutiqueRepository $boutiqueRepository,
-        CategoriePRepository $categoriePRepository
-    ): Response {
-        // Trouver l'ID de la catégorie "alimentaire"
-        $categorieP = $categoriePRepository->findOneByNom('alimentaire');
+    public function index(CategorieBRepository $categorieBRepository, ProduitRepository $produitRepository, BoutiqueRepository $boutiqueRepository, CategoriePRepository $categoriePRepository): Response {
+        
+        $categorieAlimentaire = $categoriePRepository->findOneBy(['nom' => 'Alimentaire']);
 
-        if (!$categorieP) {
-            throw $this->createNotFoundException('Catégorie "alimentaire" non trouvée.');
+        if (!$categorieAlimentaire) {
+            throw $this->createNotFoundException('Catégorie "Alimentaire" non trouvée.');
         }
 
-        // Récupérer les produits de la catégorie "alimentaire"
-        $produitsAlimentaires = $produitRepository->findByCategorieP($categorieP->getId());
+        // On cherche les sous-catégories de Alimentaire
+        $sousCategories = $categoriePRepository->findBy(['parent' => $categorieAlimentaire]);
+
+        // On ressort les produits de ces sous-catégories
+        $produitsAlimentaires = $produitRepository->findBy(['categorieP' => $sousCategories]);
 
         return $this->render('home/index.html.twig', [
             'categoriesB' => $categorieBRepository->findAll(),
@@ -36,4 +34,5 @@ class HomeController extends AbstractController
             'produitsAlimentaires' => $produitsAlimentaires,
         ]);
     }
+
 }

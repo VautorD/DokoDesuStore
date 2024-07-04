@@ -26,7 +26,7 @@
                     <td class="py-6 px-2 md:px-4 text-center">
                         <div class="flex flex-col md:flex-row items-center gap-4">
                             <div class="bg-white p-4 rounded-lg shadow-custom h-36 w-36">
-                                <img class="w-full h-full object-contain" src="{{ asset('build/img/' ~ item.produit.img) }}" alt="{{ item.produit.nom }}">
+                                <img class="w-full h-full object-contain" src="{{ asset('/img/' ~ item.produit.img) }}" alt="{{ item.produit.nom }}">
                             </div>
                             <div class="flex flex-col gap-4 text-center md:text-left">
                                 <p class="text-body-large md:text-body-medium font-semibold">{{ item.produit.nom }}</p>

@@ -211,6 +211,26 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imgFile = $form->get('img')->getData();
+
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imgFile->guessExtension();
+
+                try {
+                    $imgFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    
+                }
+
+                $produit->setImg($newFilename);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_produit_boutique', [], Response::HTTP_SEE_OTHER);

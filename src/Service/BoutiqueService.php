@@ -1,6 +1,5 @@
 <?php
 
-// src/Service/BoutiqueService.php
 namespace App\Service;
 
 use App\Entity\Produit;

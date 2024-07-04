@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produits de la boutique{% endblock %}
+{% block title %}Vos produits{% endblock %}
 
 {% block body %}
     <div class="flex flex-col md:flex-row">
@@ -9,7 +9,7 @@
         </aside>
 
         <main class="flex-1 border border-gray-200 bg-white p-4">
-            <h1 class="text-2xl font-bold mb-4">Liste des produits de la boutique {{ boutique.nom }}</h1>
+            <h1 class="text-2xl font-bold mb-4">{{ boutique.nom }} - Vos produits </h1>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full table-auto">

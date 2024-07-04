@@ -6,8 +6,7 @@
 		<link href="{{ asset('build/tailwind.css') }}" rel="stylesheet">
 		<script src="https://cdn.tailwindcss.com"></script>
 		<title>
-			{% block title %}Welcome!
-			{% endblock %}
+			{% block title %}Doko Desu Store{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 		<link rel="stylesheet" media="screen" href="https://unpkg.com/leaflet/dist/leaflet.css">
@@ -93,9 +92,9 @@
 
 		<div id="navbar-links" class="hidden md:flex flex-wrap justify-between space-x-6 p-4 mt-4">
 			<a href="{{ path('Home') }}" class="text-secondary hover:text-secondary active:text-secondary">Home</a>
-			<a href="{{ path('app_categorieP_list', {slug: "vetements"}) }}" class="hover:text-secondary active:text-secondary">Vêtements</a>
+			<a href="{{ path('app_categorieP_list', {slug: "vetements"}) }}" class="hover:text-secondary active:text-secondary">Vetements</a>
 			<a href="{{ path('app_categorieP_list', {slug: "cosplay"}) }}" class="hover:text-secondary active:text-secondary">Cosplay</a>
-			<a href="{{ path('app_categorieP_list', {slug: "libraires"}) }}" class="hover:text-secondary active:text-secondary">Librairies</a>
+			<a href="{{ path('app_categorieP_list', {slug: "librairie"}) }}" class="hover:text-secondary active:text-secondary">Librairie</a>
 			<a href="{{ path('app_categorieP_list', {slug: "produits-derives"}) }}" class="hover:text-secondary active:text-secondary">Produits Dérivés</a>
 			<a href="{{ path('app_categorieP_list', {slug: "alimentaire"}) }}" class="hover:text-secondary active:text-secondary">Alimentaire</a>
 		</div>
@@ -153,7 +152,7 @@
 					<a href="{{ path('Home') }}" class="text-secondary hover:text-secondary active:text-secondary">Home</a>
 					<a href="{{ path('app_categorieP_list', {slug: "vetements"}) }}" class="hover:text-secondary active:text-secondary">Vêtements</a>
 					<a href="{{ path('app_categorieP_list', {slug: "cosplay"}) }}" class="hover:text-secondary active:text-secondary">Cosplay</a>
-					<a href="{{ path('app_categorieP_list', {slug: "libraires"}) }}" class="hover:text-secondary active:text-secondary">Librairies</a>
+					<a href="{{ path('app_categorieP_list', {slug: "librairie"}) }}" class="hover:text-secondary active:text-secondary">Librairie</a>
 					<a href="{{ path('app_categorieP_list', {slug: "produits-derives"}) }}" class="hover:text-secondary active:text-secondary">Produits Dérivés</a>
 					<a href="{{ path('app_categorieP_list', {slug: "alimentaire"}) }}" class="hover:text-secondary active:text-secondary">Alimentaire</a>
 				</div>

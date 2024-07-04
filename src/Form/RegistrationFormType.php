@@ -73,12 +73,12 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('abonnement', EntityType::class, [
                 'class' => Abonnement::class,
-                'choice_label' => 'nom',
+                'choice_label' => function (Abonnement $abonnement) {
+                    return sprintf('%s - %s€ - %s', $abonnement->getNom(), $abonnement->getPrix(), $abonnement->getDescription());
+                },
                 'placeholder' => 'Sélectionnez un abonnement',
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Abonnement'
+                'label' => 'Abonnement',
+                'attr' => ['class' => 'form-control w-full mt-1 p-2 border rounded'],
             ])
             ->add('boutique', CheckboxType::class, [
                 'label' => 'Avez-vous une boutique ?',

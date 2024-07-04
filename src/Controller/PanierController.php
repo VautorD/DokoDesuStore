@@ -39,21 +39,21 @@ class PanierController extends AbstractController
     }
 
     #[Route('/add/{id}/{quantity}', name: 'app_panier_add', methods: ['GET'])]
-public function add(Produit $produit, int $quantity, SessionInterface $session): Response
-{
-    $id = $produit->getId();
-    $panier = $session->get('panier', []);
+    public function add(Produit $produit, int $quantity, SessionInterface $session): Response
+    {
+        $id = $produit->getId();
+        $panier = $session->get('panier', []);
 
-    if (empty($panier[$id])) {
-        $panier[$id] = $quantity;
-    } else {
-        $panier[$id] += $quantity;
+        if (empty($panier[$id])) {
+            $panier[$id] = $quantity;
+        } else {
+            $panier[$id] += $quantity;
+        }
+
+        $session->set('panier', $panier);
+
+        return $this->redirectToRoute('app_panier_index');
     }
-
-    $session->set('panier', $panier);
-
-    return $this->redirectToRoute('app_panier_index');
-}
 
     #[Route('/remove/{id}', name: 'app_panier_remove', methods: ['GET'])]
     public function remove(Produit $produit, SessionInterface $session): Response

@@ -7,14 +7,6 @@
 {% block body %}
     <div class="w-full h-[400px] bg-cover bg-center" style="background-image: url('/img/banniere-fiche-categorie.webp');"></div>
     <div class="container mx-auto px-12 py-12 mt-12">
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 mb-8">
-            <img src="{{ asset('img/' ~ boutique.img) }}" alt="Photo 1" class="h-40 object-cover w-full">
-            <img src="{{ asset('img/' ~ boutique.img) }}" alt="Photo 2" class="h-40 object-cover w-full">
-            <img src="{{ asset('img/' ~ boutique.img) }}" alt="Photo 3" class="h-40 object-cover w-full">
-            <img src="{{ asset('img/' ~ boutique.img) }}" alt="Photo 4" class="h-40 object-cover w-full">
-            <img src="{{ asset('img/' ~ boutique.img) }}" alt="Photo 5" class="h-40 object-cover w-full">
-        </div>
-
          <div class="flex flex-col lg:flex-row lg:space-x-8 mb-8">
             <div class="flex-shrink-0 w-full lg:w-1/3 mb-4 lg:mb-0">
                 <img src="{{ asset('img/' ~ boutique.img) }}" alt="La photo de {{ boutique.nom }}" class="w-full h-[315px] object-cover shadow-custom">
@@ -83,7 +75,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {% for produit in boutique.produits %}
                     <div class="bg-white max-h shadow-md rounded overflow-hidden flex flex-col justify-between">
-                        <img src="{{ asset('/img/' ~ produit.img) }}" alt="Image du produit {{ produit.nom }}" class="w-full h-36 object-cover mb-4">
+                        <img src="{{ asset('/img/' ~ produit.img) }}" alt="Image du produit {{ produit.nom }}" class="w-full h-[350px] object-cover mb-4">
                         <div class="px-6 py-4">
                             <h3 class="text-start text-lg font-semibold">{{ produit.nom }}</h3>
                             <p class="text-end text-xl text-gray-700">{{ produit.prix }}

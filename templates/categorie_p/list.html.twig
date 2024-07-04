@@ -8,17 +8,16 @@
 	<main class="container mx-auto my-8">
 		<section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 			<div class="col-span-full">
-				<h1 class="text-4xl font-bold mb-8">Découvrez nos produits:
-					{{ categorie_p.nom }}</h1>
+				<h1 class="text-4xl font-bold mb-8">Découvrez nos produits:{{ categorie_p.nom }}</h1>
 			</div>
 			{% for produit in produits %}
-				<div class="bg-white shadow-lg rounded-lg overflow-hidden">
+				<div class="w-full max-h rounded overflow-hidden shadow-lg mx-auto">
 					<div class='flex justify-center'>
-                                <img src="{{ asset('build/img/' ~ produit.img) }}" alt="{{ produit.nom }}" class="h-32 object-cover rounded-t-lg w-full">
+                                <img src="{{ asset('/img/' ~ produit.img) }}" alt="Image de {{ produit.nom }}" class="w-full h-[350px] object-cover">
                             </div>
 					<div class="p-4">
 						<h2 class="text-gray-800 font-bold text-xl mb-2">{{ produit.nom }}</h2>
-						<p class="text-gray-600 text-sm">{{ produit.description }}</p>
+						
 						<p class="mt-2">Prix :
 							<span class="font-bold">{{ produit.prix }}
 								€</span>

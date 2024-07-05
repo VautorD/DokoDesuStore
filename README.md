@@ -7,6 +7,7 @@
 - [Fonctionnalités principales](#fonctionnalités-principales)
 - [Auteurs](#auteurs)
 
+- https://github.com/VautorD/DokoDesuStore.git
 ---
 
 ## Informations sur le projet

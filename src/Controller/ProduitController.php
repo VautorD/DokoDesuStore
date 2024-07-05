@@ -49,9 +49,8 @@ class ProduitController extends AbstractController
             // Trouver la boutique associée à cet utilisateur
             $boutique = $boutiqueRepository->findOneBy(['user' => $user]);
 
-            // Assurez-vous que $boutique est définie et non null
             if (!$boutique) {
-                throw new \RuntimeException('User does not have an associated boutique.');
+                throw new \RuntimeException('Pas de boutique.');
             }
 
             // Assigner la boutique au produit
@@ -71,7 +70,7 @@ class ProduitController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // handle exception if something happens during file upload
+                    
                 }
 
                 $produit->setImg($newFilename);

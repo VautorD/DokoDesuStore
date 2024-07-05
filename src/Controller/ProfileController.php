@@ -16,7 +16,7 @@ class ProfileController extends AbstractController
     #[Route('/mon-compte', name: 'app_profile_index')]
     public function index(BoutiqueRepository $boutiqueRepository): Response
     {   
-        //si le user est co
+        //si le user est connecté
         $user = $this->getUser();
 
         if (!$user) {
